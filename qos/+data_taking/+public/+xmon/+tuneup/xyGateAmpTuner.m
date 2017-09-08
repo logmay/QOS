@@ -64,7 +64,7 @@ function varargout = xyGateAmpTuner(varargin)
     if isempty(currentGateAmp)
         amps = linspace(0,(1-da.dynamicReserve{1})*da.vpp/2,NUM_RABI_SAMPLING_PTS*2);
     else
-        amps = linspace(0.5*currentGateAmp,min(1.5*currentGateAmp,(1-da.dynamicReserve{1})*da.vpp/2),NUM_RABI_SAMPLING_PTS);
+        amps = linspace(0.5*currentGateAmp,min(1.5*currentGateAmp,(1-da.dynamicReserve(1))*da.vpp/2),NUM_RABI_SAMPLING_PTS);
     end
 	e = rabi_amp1('qubit',q,'biasAmp',0,'biasLonger',0,'xyDriveAmp',amps,...
 		'detuning',0,'driveTyp',args.gateTyp,'gui',false,'save',false);

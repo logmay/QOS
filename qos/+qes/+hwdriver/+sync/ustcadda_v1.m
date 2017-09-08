@@ -377,7 +377,7 @@ classdef ustcadda_v1 < qes.hwdriver.icinterface_compatible % extends icinterface
         function setDAChnlOutputDelay(obj,ch,delay)
             obj.da_channel_list(ch).delay = delay;
         end
-        function setDABoardTrigDelay(obj,da_name,point)
+        function SetDABoardTrigDelay(obj,da_name,point)
             for k = 1:obj.numDABoards
                 name = obj.da_list(k).da.name;
                 if(strcmpi(name,da_name))
