@@ -164,10 +164,10 @@ data = singleQProcessTomo('qubit','q2','reps',2,'process',gate);
 chi = sqc.qfcns.processTomoData2Rho(data);
 h = figure();bar3(real(chi));h = figure();bar3(imag(chi));
 %% single qubit gate benchmarking
-setQSettings('r_avg',200);
-numGates = 1:1:5;
-[Pref,Pi] = randBenchMarking('qubit1','q7','qubit2',[],...
-       'process','-X/2','numGates',numGates,'numReps',70,...
+setQSettings('r_avg',500);
+numGates = 1:1:10;
+[Pref,Pi] = randBenchMarking('qubit1','q2','qubit2',[],...
+       'process','X','numGates',numGates,'numReps',70,...
        'gui',true,'save',true);
 
 %% two qubit gate benchmarking
@@ -188,7 +188,7 @@ tuneup.xyGateAmpTuner('qubit',q,'gateTyp','X','AE',true,'gui',true,'save','askMe
 tuneup.iq2prob_01('qubit',q,'numSamples',1e4,'gui',true,'save','askMe');
 %% fully auto callibration
 % qubits = {'q7','q8'};
-qubits = {'q9_1k'};
+qubits = {'q2'};
 for ii = 1:numel(qubits)
     q = qubits{ii};
     setQSettings('r_avg',2000,q);
