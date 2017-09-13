@@ -179,8 +179,8 @@ classdef USTCADC < handle
                 pIQ = libpointer('int32Ptr', IQ);
                 [ret,IQ] = calllib(obj.driver,'RecvDemo',int32(row),pIQ);
                 if(ret == 0)
-                    I = IQ(1:2:length(IQ));
-                    Q = IQ(2:2:length(IQ));
+                    I = double(IQ(1:2:length(IQ)));
+                    Q = double(IQ(2:2:length(IQ)));
                 end
             else
                 I = zeros(row*column,1);

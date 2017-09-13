@@ -2,7 +2,7 @@ function result=qbitstatesimulate(celljsonorfile)
 % zhaouv https://zhaouv.github.io/
 
 warning('替换为 qutipenv=localconfig.pythonconfig.qutipenv;统一配置?否则若放入qos中会容易在移植时出bug')
-qutipenv='C:\Users\ZhaoUV\AppData\Local\conda\conda\envs\qutip-env\python.exe';
+qutipenv='C:\ProgramData\Anaconda3\envs\qutip-env\python.exe';
 %[~,qutipenv,~]=pyversion;%如果默认的python环境有qutip,使用此句即可
 
 %{

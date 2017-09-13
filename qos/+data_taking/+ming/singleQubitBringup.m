@@ -50,7 +50,7 @@ s21_rAmp('qubit', qubits{1},...
     'notes','H5H6','gui',true,'save',true);
 %%
 s21_rAmp('qubit', qubits{1},...
-    'freq',6.55e9:1e6:7.1e9,'amp',1e4,...
+    'freq',6.e9:1e6:7.e9,'amp',1e4,...
     'notes','','gui',true,'save',true);
 %%
 for II=1:numel(qubits)
@@ -77,7 +77,7 @@ for II=[1 3]
     for jj = 1:sz(2)
         z_(:,jj) = z_(:,jj) - z_(1,jj);
     end
-    frqs=dips(II)+(-1e6:0.05e6:1e6);
+    frqs=dips(II)+(-2e6:0.05e6:1e6);
     [~,mm]=min(z_);
     figure;surface(frqs,amps,z_','edgecolor','none')
     hold on;plot3(frqs(mm),amps,100*ones(1,length(amps)),'-or')
@@ -94,7 +94,7 @@ for II=1:numel(r_amp)
     setQSettings('r_amp',r_amp(II),qubits{II});
 end
 %% Get all S21 curves with current readout setup, and update r_freq
-for II=[1 3]
+for II=[ 3]
     r_freq=getQSettings('r_fr', qubits{II});
     s_r_freq=r_freq-0.5e6:0.025e6:r_freq+1e6;
     data2{II}=s21_rAmp('qubit', qubits{II},...
@@ -134,10 +134,10 @@ end
 for II=3
     cP=getQSettings('qr_xy_uSrcPower', qubits{II});
     setQSettings('qr_xy_uSrcPower',7-0, qubits{II});
-    setQSettings('spc_sbFreq',500e6, qubits{II});
+    setQSettings('spc_sbFreq',-400e6, qubits{II});
     QS.saveSSettings({qubits{II},'spc_driveAmp'},5000)
     data0{II}=spectroscopy1_zpa('qubit',qubits{II},...
-        'biasAmp',[-2e4:2e3:2e4],'driveFreq',[5.4e9:1e6:6.4e9],...
+        'biasAmp',[-2e4:2e3:2e4],'driveFreq',[5.e9:1e6:6.4e9],...
         'r_avg',500,'notes','26dB in RT','gui',true,'save',true,'dataTyp','S21');
     setQSettings('qr_xy_uSrcPower',cP, qubits{II});
 end
@@ -186,9 +186,9 @@ tuneup.optReadoutAmp('qubit','q2','gui',true,'save',true,'bnd',[5000,30000],'opt
 %% Optimize readout length
 tuneup.optReadoutLn('qubit','q7','gui',true,'save',true,'bnd',[1000,8000],'optnum',11);
 %% automatic function, after previous steps pined down qubit parameters,
-q = qubits{5};
-tuneup.correctf01bySpc('qubit',q,'gui',true,'save',true); % measure f01 by spectrum
-XYGate ={'X', 'Y', 'X/2', 'Y/2', '-X/2', '-Y/2','X/4', 'Y/4', '-X/4', '-Y/4'};
+q = qubits{2};
+tuneup.correctf01byRamsey('qubit',q,'gui',true,'save',true); % measure f01 by spectrum
+XYGate ={'X', 'Y', 'X/2', 'Y/2', '-X/2', '-Y/2'};
 for II = 1:numel(XYGate)
     tuneup.xyGateAmpTuner('qubit',q,'gateTyp',XYGate{II},'gui',true,'save',true); % finds the XY gate amplitude and update to settings
 end
@@ -217,3 +217,5 @@ T1_1_s21('qubit','q6','biasAmp',000,'time',[0:100:8e3],'biasDelay',0,...
 %%
 T1_1_s21('qubit','q2','biasAmp',[-3e4:1e3:3e4],'time',[0:200:10e3],...
     'gui',true,'save',true,'r_avg',5000)
+%%
+tuneup.correctf01byRamsey('qubit','q2','gui',true,'save',true);

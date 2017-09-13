@@ -72,7 +72,7 @@ classdef ustc_ad_v1 < qes.hwdriver.hardware
         function [I,Q] = Run(obj,N)
             obj.ustcaddaObj.runReps = N; % this only takes ~70us, the next line takes ~300ms
 			if obj.demodMode
-				[I,Q] = obj.ustcaddaObj.Run(obj.demodFreq);
+				[I,Q] = obj.ustcaddaObj.Run(true,obj.demodFreq);
 			else
 				[I,Q] = obj.ustcaddaObj.Run(true);
 			end

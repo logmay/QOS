@@ -16,7 +16,7 @@
 #ifndef __SC5511A_H__
 #define __SC5511A_H__
 
-#include <D:\Dropbox\MATLAB GUI\USTC Measurement System\qes\qes\hardware\SC5511A\libusb.h>
+#include <E:\QOS\qos\dlls\libusb.h>
 
 //  Define USB SignalCore ID
 

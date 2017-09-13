@@ -24,7 +24,7 @@ function varargout = ramsey(varargin)
     
     import qes.util.processArgs
     import data_taking.public.xmon.*
-    args = processArgs(varargin,{'mode', 'df01','dataTyp','P','phaseOffset',0,'fit',true...
+    args = processArgs(varargin,{'mode', 'df01','dataTyp','P','phaseOffset',0,'fit',false...
         'gui',false,'notes','','detuning',0,'save',true});
     switch args.mode
         case 'df01'

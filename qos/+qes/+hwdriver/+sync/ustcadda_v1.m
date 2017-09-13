@@ -267,7 +267,10 @@ classdef ustcadda_v1 < qes.hwdriver.icinterface_compatible % extends icinterface
                 len = len - 1;
             end
         end
-        function [I,Q,isSuccessed] = Run(obj,isSample)
+        function [I,Q,isSuccessed] = Run(obj,isSample,demodFreq)
+            if nargin<3
+                demodFreq=0;
+            end
             I = 0; Q = 0; ret = -1;isSuccessed = 1;
             obj.da_list(obj.da_master_index).da.SetTrigCount(obj.runReps);
             for k = 1:obj.numDABoards
@@ -278,10 +281,13 @@ classdef ustcadda_v1 < qes.hwdriver.icinterface_compatible % extends icinterface
             end
             if(isSample == true)
                 obj.ad_list(1).ad.SetMode(obj.ad_list(1).ad.isdemod);
+                obj.ad_list(1).ad.SetWindowStart(8); % Caution! WindowStart need to be a varible in the latter version!
+                obj.ad_list(1).ad.SetWindowLength(obj.adRecordLength-8); % Caution! WindowStart need to be a varible in the latter version!
                 obj.ad_list(1).ad.SetSampleDepth(obj.adRecordLength);
                 obj.ad_list(1).ad.SetTrigCount(obj.runReps);
                 if(obj.ad_list(1).ad.isdemod)
-                   obj.ad_list(1).ad.SetDemoFre(obj.ad_list(1).demod_frequency);
+                    obj.ad_list(1).ad.SetDemoFre(demodFreq);
+%                    obj.ad_list(1).ad.SetDemoFre(obj.ad_list(1).demod_frequency);
                 end
             end
             for k=1:obj.numDABoards
