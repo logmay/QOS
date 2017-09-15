@@ -154,8 +154,8 @@ for II=10
     setQSettings('qr_xy_uSrcPower',cP, qubits{II});
 end
 %% qubitStability
-data=data_taking.public.scripts.qubitStability('qubit','q5','Repeat',200,...
-    'biasAmp',0,'driveFreq',[4.895e9:0.2e6:4.915e9],'dataTyp','P',...
+data=data_taking.public.scripts.qubitStability('qubit','q2','Repeat',100,...
+    'biasAmp',0,'driveFreq',[5.91e9:0.2e6:5.923e9],'dataTyp','P',...
     'r_avg',1000,'notes','','gui',false,'save',false);
 
 %%
@@ -218,4 +218,42 @@ T1_1_s21('qubit','q6','biasAmp',000,'time',[0:100:8e3],'biasDelay',0,...
 T1_1_s21('qubit','q2','biasAmp',[-3e4:1e3:3e4],'time',[0:200:10e3],...
     'gui',true,'save',true,'r_avg',5000)
 %%
-tuneup.correctf01byRamsey('qubit','q2','gui',true,'save',true);
+for ii=1:1000
+[~,f01(end+1)]=tuneup.correctf01byRamsey('qubit','q2','gui',false,'save',true);
+figure(2);
+subplot(2,1,1);
+hist(f01);
+title(['STD:' num2str(std(f01),'%.3e') ', mean:' num2str(mean(f01),'%.3e') ', rate:' num2str(std(f01)/mean(f01),'%.3e')])
+subplot(2,1,2)
+plot(f01,'.')
+drawnow;
+end
+%% fully auto callibration
+qubits = {'q2'};
+for ii = 1:numel(qubits)
+    q = qubits{ii};
+    setQSettings('r_avg',2000,q);
+    tuneup.correctf01byRamsey('qubit',q,'gui',true,'save',true);
+    tuneup.xyGateAmpTuner('qubit',q,'gateTyp','X','AE',false,'gui',true,'save',true);
+    tuneup.iq2prob_01('qubit',q,'numSamples',1e4,'gui',true,'save',true);
+    XYGate ={'X','X/2','X/4'};
+    for jj = 1:numel(XYGate)
+        tuneup.xyGateAmpTuner('qubit',q,'gateTyp',XYGate{jj},'AE',true,'AENumPi',21,'gui',true,'save',true);
+    end
+end
+%%
+state = '|0>-i|1>';
+data = singleQStateTomo('qubit','q2','reps',2,'state',state);
+rho = sqc.qfcns.stateTomoData2Rho(data);
+h = figure();bar3(real(rho));h = figure();bar3(imag(rho));
+%%
+gate = 'Y/2';
+data = singleQProcessTomo('qubit','q2','reps',2,'process',gate);
+chi = sqc.qfcns.processTomoData2Rho(data);
+h = figure();bar3(real(chi));h = figure();bar3(imag(chi));
+%% single qubit gate benchmarking
+setQSettings('r_avg',500);
+numGates = 1:1:10;
+[Pref,Pi] = randBenchMarking('qubit1','q2','qubit2',[],...
+       'process','X/2','numGates',numGates,'numReps',70,...
+       'gui',true,'save',true);
