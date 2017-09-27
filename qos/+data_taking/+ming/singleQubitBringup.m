@@ -46,7 +46,7 @@ readoutFreqDiagram(qubits,200e6)
 data_taking.public.jpa.turnOnJPA('jpaName','impa1','pumpFreq',13.55e9,'pumpPower',5,'bias',0.00014,'on',true)
 %% S21
 s21_rAmp('qubit', qubits{1},...
-    'freq',dips(1)-1e6:0.2e6:dips(end)+1e6,'amp',1e4,...
+    'freq',dips(1)-1e6:0.5e6:dips(end)+1e6,'amp',1e4,...
     'notes','H5H6','gui',true,'save',true);
 %%
 s21_rAmp('qubit', qubits{1},...
@@ -64,20 +64,20 @@ for II=1:numel(qubits)
 end
 
 %% S21 fine scan for each qubit dip, you can scan the power(by scan amp in log scale) to find the dispersive shift
-amps=[logspace(log10(3000),log10(30000),41)];
-for II = [1 3]
-    data1{II}=s21_rAmp('qubit',qubits{II},'freq',[dips(II)-2e6:0.05e6:dips(II)+1e6],'amp',amps,...  % logspace(log10(1000),log10(32768),25)
-        'notes','23dB @ RT','gui',true,'save',true,'r_avg',1000);
+amps=[logspace(log10(1000),log10(30000),41)];
+for II =  2
+    data1{II}=s21_rAmp('qubit',qubits{II},'freq',[dips(II)-1.e6:0.05e6:dips(II)+2.e6],'amp',amps,...  % logspace(log10(1000),log10(32768),25)
+        'notes','30dB @ RT','gui',true,'save',true,'r_avg',500);
 end
 %% figure out dispersive shift
-for II=[1 3]
+for II=[1 2 3]
     dd=abs(cell2mat(data1{1,II}.data{1,1}));
     z_ = 20*log10(abs(dd));
     sz=size(z_);
     for jj = 1:sz(2)
         z_(:,jj) = z_(:,jj) - z_(1,jj);
     end
-    frqs=dips(II)+(-2e6:0.05e6:1e6);
+    frqs=dips(II)+(-0.5e6:0.05e6:2.5e6);
     [~,mm]=min(z_);
     figure;surface(frqs,amps,z_','edgecolor','none')
     hold on;plot3(frqs(mm),amps,100*ones(1,length(amps)),'-or')
@@ -94,9 +94,9 @@ for II=1:numel(r_amp)
     setQSettings('r_amp',r_amp(II),qubits{II});
 end
 %% Get all S21 curves with current readout setup, and update r_freq
-for II=[ 3]
+for II=2
     r_freq=getQSettings('r_fr', qubits{II});
-    s_r_freq=r_freq-0.5e6:0.025e6:r_freq+1e6;
+    s_r_freq=r_freq-0.5e6:0.025e6:r_freq+3e6;
     data2{II}=s21_rAmp('qubit', qubits{II},...
         'freq',s_r_freq,'amp',getQSettings('r_amp', qubits{II}),...
         'notes',qubits{II},'gui',true,'save',true);
@@ -131,13 +131,13 @@ for II=7
     end
 end
 %% spectroscopy1_zpa
-for II=3
+for II=2
     cP=getQSettings('qr_xy_uSrcPower', qubits{II});
-    setQSettings('qr_xy_uSrcPower',7-0, qubits{II});
+    setQSettings('qr_xy_uSrcPower',7-20, qubits{II});
     setQSettings('spc_sbFreq',-400e6, qubits{II});
     QS.saveSSettings({qubits{II},'spc_driveAmp'},5000)
     data0{II}=spectroscopy1_zpa('qubit',qubits{II},...
-        'biasAmp',[-2e4:2e3:2e4],'driveFreq',[5.e9:1e6:6.4e9],...
+        'biasAmp',[-3e4:1e3:3e4],'driveFreq',[5.5e9:1e6:5.95e9],...
         'r_avg',500,'notes','26dB in RT','gui',true,'save',true,'dataTyp','S21');
     setQSettings('qr_xy_uSrcPower',cP, qubits{II});
 end
@@ -154,14 +154,14 @@ for II=10
     setQSettings('qr_xy_uSrcPower',cP, qubits{II});
 end
 %% qubitStability
-data=data_taking.public.scripts.qubitStability('qubit','q5','Repeat',200,...
-    'biasAmp',0,'driveFreq',[4.895e9:0.2e6:4.915e9],'dataTyp','P',...
+data=data_taking.public.scripts.qubitStability('qubit','q2','Repeat',100,...
+    'biasAmp',0,'driveFreq',[5.91e9:0.2e6:5.923e9],'dataTyp','P',...
     'r_avg',1000,'notes','','gui',false,'save',false);
 
 %%
 % setZDC('q2',-2000);
 rabi_amp1('qubit','q2','biasAmp',0,'biasLonger',10,...
-    'xyDriveAmp',[0:500:3e4],'detuning',0,'driveTyp','X','notes','26dB attn.',...
+    'xyDriveAmp',[0:500:3e4],'detuning',0,'driveTyp','X','notes','20dB attn.',...
     'dataTyp','S21','r_avg',2000,'gui',true,'save',true);
 % rabi_amp1('qubit','q2','xyDriveAmp',[0:500:3e4]);  % lazy mode
 %% 
@@ -182,7 +182,7 @@ tuneup.optReadoutFreq('qubit','q2','gui',true,'save',true);
 tuneup.iq2prob_01('qubit','q2','numSamples',1e4,...
     'gui',true,'save',true)
 %% Optimize readout amplitude
-tuneup.optReadoutAmp('qubit','q2','gui',true,'save',true,'bnd',[5000,30000],'optnum',21);
+tuneup.optReadoutAmp('qubit','q8','gui',true,'save',true,'bnd',[2000,20000],'optnum',31,'turnrf',true);
 %% Optimize readout length
 tuneup.optReadoutLn('qubit','q7','gui',true,'save',true,'bnd',[1000,8000],'optnum',11);
 %% automatic function, after previous steps pined down qubit parameters,
@@ -200,16 +200,17 @@ spectroscopy1_zdc('qubit','q2',...
     'r_avg',1000,'gui',true,'save',true);
 %%
 ramsey('mode','dp','qubit','q2',...
-    'time',[0:100:12000],'detuning',-3*1e6,'T1',5.12,...
+    'time',[0:16*3:1600*10],'detuning',2*1e6,'T1',4.66,'fit',true,...
     'dataTyp','P','notes','pulse tube on','gui',true,'save',true,'r_avg',3000);
-% ramsey_df01('qubit','q6',...
-%       'time',[0:2:200],'detuning',10*1e6,...
-%       'dataTyp','P','notes','','gui',true,'save',true);
 %%
-T1_1('qubit','q2','biasAmp',0,'time',[0:500:30e3],'biasDelay',16,...
+ramsey('mode','dz','qubit','q2',...
+    'time',[0:16*1:1600*8],'detuning',0,'detuneAmp',[-0.4e4:0.2e3:0.5e4],'T1',4.66,'fit',true,...
+    'dataTyp','P','notes','pulse tube on','gui',true,'save',true,'r_avg',3000);
+%%
+T1_1('qubit','q2','biasAmp',0,'time',[0:160*3:30e3],'biasDelay',16,...
     'gui',true,'save',true,'r_avg',3000,'fit',true)
 %%
-T1_1('qubit','q2','biasAmp',[-3e4:0.1e3:6000],'time',[0:1000:30e3],'biasDelay',16,...
+T1_1('qubit','q2','biasAmp',[-6100:0.1e3:6000],'time',[0:160*3:30e3],'biasDelay',16,...
     'gui',true,'save',true,'r_avg',3000,'fit',true,'notes','unplug thermalmeter')
 %%
 T1_1_s21('qubit','q6','biasAmp',000,'time',[0:100:8e3],'biasDelay',0,...
@@ -218,4 +219,42 @@ T1_1_s21('qubit','q6','biasAmp',000,'time',[0:100:8e3],'biasDelay',0,...
 T1_1_s21('qubit','q2','biasAmp',[-3e4:1e3:3e4],'time',[0:200:10e3],...
     'gui',true,'save',true,'r_avg',5000)
 %%
-tuneup.correctf01byRamsey('qubit','q2','gui',true,'save',true);
+for ii=1:1000
+[~,f01(end+1)]=tuneup.correctf01byRamsey('qubit','q2','gui',false,'save',true);
+figure(2);
+subplot(2,1,1);
+hist(f01);
+title(['STD:' num2str(std(f01),'%.3e') ', mean:' num2str(mean(f01),'%.3e') ', rate:' num2str(std(f01)/mean(f01),'%.3e')])
+subplot(2,1,2)
+plot(f01,'.')
+drawnow;
+end
+%% fully auto callibration
+qubits = {'q2'};
+for ii = 1:numel(qubits)
+    q = qubits{ii};
+    setQSettings('r_avg',2000,q);
+    tuneup.correctf01byRamsey('qubit',q,'gui',true,'save',true);
+    tuneup.xyGateAmpTuner('qubit',q,'gateTyp','X','AE',false,'gui',true,'save',true);
+    tuneup.iq2prob_01('qubit',q,'numSamples',1e4,'gui',true,'save',true);
+    XYGate ={'X','X/2'};
+    for jj = 1:numel(XYGate)
+        tuneup.xyGateAmpTuner('qubit',q,'gateTyp',XYGate{jj},'AE',true,'AENumPi',21,'gui',true,'save',true);
+    end
+end
+%%
+state = '|0>-i|1>';
+data = singleQStateTomo('qubit','q2','reps',2,'state',state);
+rho = sqc.qfcns.stateTomoData2Rho(data);
+h = figure();bar3(real(rho));h = figure();bar3(imag(rho));
+%%
+gate = 'Y/2';
+data = singleQProcessTomo('qubit','q2','reps',2,'process',gate);
+chi = sqc.qfcns.processTomoData2Rho(data);
+h = figure();bar3(real(chi));h = figure();bar3(imag(chi));
+%% single qubit gate benchmarking
+setQSettings('r_avg',500);
+numGates = 1:1:10;
+[Pref,Pi] = randBenchMarking('qubit1','q2','qubit2',[],...
+       'process','X/2','numGates',numGates,'numReps',70,...
+       'gui',true,'save',true);

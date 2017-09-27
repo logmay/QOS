@@ -45,7 +45,7 @@ if args.fit % Add by GM, 170623
             tf = linspace(time(1),time(end),100);
             zf = toolbox.data_tool.fitting.expDecay([A_,B_,td_],tf);
             hf=figure;
-            plot(gca, time/2000,z);
+            plot(gca, time/2000,z,'o','MarkerFaceColor','r');
             hold on;
             plot(gca,tf/2000,zf,'r');
             plot(gca,temp(3,:)/2000,[zf(end),zf(end)],'g-+');

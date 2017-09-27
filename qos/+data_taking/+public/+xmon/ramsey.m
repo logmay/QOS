@@ -25,7 +25,7 @@ function varargout = ramsey(varargin)
     import qes.util.processArgs
     import data_taking.public.xmon.*
     args = processArgs(varargin,{'mode', 'df01','dataTyp','P','phaseOffset',0,'fit',false...
-        'gui',false,'notes','','detuning',0,'save',true});
+        'gui',false,'notes','','detuning',0,'detuneAmp',0,'save',true});
     switch args.mode
         case 'df01'
             e = ramsey_df01('qubit',args.qubit,'dataTyp',args.dataTyp,'phaseOffset',args.phaseOffset,...
@@ -37,7 +37,7 @@ function varargout = ramsey(varargin)
                 'notes',args.notes,'gui',args.gui,'save',args.save);
         case 'dz'
             e = ramsey_dz('qubit',args.qubit,'dataTyp',args.dataTyp,'phaseOffset',args.phaseOffset,...
-                'time',args.time,'detuning',args.detuning,...
+                'time',args.time,'detuning',args.detuning,'detuneAmp',args.detuneAmp,...
                 'notes',args.notes,'gui',args.gui,'save',args.save);
         otherwise
             throw(MException('QOS_spin_echo:illegalModeTyp',...
@@ -45,23 +45,38 @@ function varargout = ramsey(varargin)
     end
     varargout{1} = e;
     if args.fit % Add by GM, 170623
-        Ramsey_data=e.data{1,1};
+        Ramsey_data0=e.data{1,1};
         Ramsey_time=args.time/2;
         
-        detuning=toolbox.data_tool.fitting.FFT_Peak(Ramsey_time,Ramsey_data);
-        T1=args.T1*1000;
-        
-        Ramsey_length2=linspace(min(Ramsey_time),max(Ramsey_time),1000);
-        f=@(a,x)(a(1)+a(2)*exp(-(x/a(3)).^2-x/T1).*cos(a(4)*2*pi.*x+a(5)));
-        a=[(max(Ramsey_data)+min(Ramsey_data))/2,(max(Ramsey_data)-min(Ramsey_data))/2,Ramsey_time(end)/2,detuning,1];
-        b=nlinfit(Ramsey_time,Ramsey_data,f,a);
-        hf=figure;
-        plot(Ramsey_time,Ramsey_data,'o',Ramsey_length2,b(1)+b(2).*exp(-(Ramsey_length2./b(3)).^2-Ramsey_length2/T1).*cos(b(4)*2*pi.*Ramsey_length2+b(5)),'linewidth',2);
-        decay=abs(b(3));
-        deltaf=b(4);
-        title(['T_2^*=' num2str(decay/1e3,'%.2f') 'us, detuning freq=' num2str(1e3*deltaf,'%.2f') 'MHz'])
-        xlabel('Pulse delay (ns)');
-        ylabel('P');
+        for II=1:size(Ramsey_data0,1)
+            Ramsey_data=Ramsey_data0(II,:);
+            detuning=toolbox.data_tool.fitting.FFT_Peak(Ramsey_time,Ramsey_data);
+            T1=args.T1*1000;
+
+            Ramsey_length2=linspace(min(Ramsey_time),max(Ramsey_time),1000);
+            f=@(a,x)(a(1)+a(2)*exp(-(x/a(3)).^2-x/T1).*cos(a(4)*2*pi.*x+a(5)));
+            a=[(max(Ramsey_data)+min(Ramsey_data))/2,(max(Ramsey_data)-min(Ramsey_data))/2,Ramsey_time(end)/2,detuning,1];
+            b=nlinfit(Ramsey_time,Ramsey_data,f,a);
+            decay(II)=abs(b(3));
+            deltaf(II)=b(4);
+            
+            
+            
+        end
+        if size(Ramsey_data0,1)==1
+            hf=figure;
+            plot(Ramsey_time,Ramsey_data,'o',Ramsey_length2,b(1)+b(2).*exp(-(Ramsey_length2./b(3)).^2-Ramsey_length2/T1).*cos(b(4)*2*pi.*Ramsey_length2+b(5)),'linewidth',2,'MarkerFaceColor','r');
+            title(['T_2^*=' num2str(decay/1e3,'%.2f') 'us, detuning freq=' num2str(1e3*deltaf,'%.2f') 'MHz'])
+            xlabel('Pulse delay (ns)');
+            ylabel('P');
+        else
+            hf=figure;
+            h1=plot(args.detuneAmp,decay/1e3);
+            ylim([0,Ramsey_time(end)*2/1e3])
+            ylabel('T2* (us)')
+            xlabel('Detune Amp')
+            set(h1,'LineStyle','-','Marker','o','MarkerFaceColor','b')
+        end
         if args.save
             QS = qes.qSettings.GetInstance();
             dataSvName = fullfile(QS.loadSSettings('data_path'),...

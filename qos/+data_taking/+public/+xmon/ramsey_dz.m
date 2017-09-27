@@ -25,11 +25,12 @@ function varargout = ramsey_dz(varargin)
     import sqc.op.physical.*
 
     args = util.processArgs(varargin,{'phaseOffset',0,'detuning',0,'dataTyp','P',...
-        'gui',false,'notes','','detuning',0,'save',true});
+        'gui',false,'notes','','detuning',0,'detuneAmp',0,'save',true});
     q = data_taking.public.util.getQubits(args,{'qubit'});
 
-    X2 = gate.X2p(q);
-    I = op.detune(q);
+    X2 = op.XY2p(q,0);
+    I = gate.I(q);
+    Z = op.zBias4Spectrum(q);
     R = measure.resonatorReadout_ss(q);
  
     switch args.dataTyp
@@ -47,18 +48,18 @@ function varargout = ramsey_dz(varargin)
     X2_ = copy(X2);
     X2.phase = args.phaseOffset;
     function procFactory(delay)
-        I.ln = delay;
-        proc = X2_*I*X2;
+        Z.ln = delay;
+        proc = X2_*Z*X2;
         proc.Run();
         R.delay = proc.length;
     end
 
-    x = expParam(I,'df');
-    x.name = [q.name,' detunning'];
+    x = expParam(Z,'amp');
+    x.name = [q.name,' detunneAmp'];
     y = expParam(@procFactory);
     y.name = [q.name,' time'];
     s1 = sweep(x);
-    s1.vals = args.detuning;
+    s1.vals = args.detuneAmp;
     s2 = sweep(y);
     s2.vals = args.time;
     e = experiment();
