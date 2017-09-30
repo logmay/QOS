@@ -25,7 +25,7 @@ function varargout = ramsey(varargin)
     import qes.util.processArgs
     import data_taking.public.xmon.*
     args = processArgs(varargin,{'mode', 'df01','dataTyp','P','phaseOffset',0,'fit',false...
-        'gui',false,'notes','','detuning',0,'detuneAmp',0,'save',true});
+        'gui',false,'notes','','detuning',0,'save',true});
     switch args.mode
         case 'df01'
             e = ramsey_df01('qubit',args.qubit,'dataTyp',args.dataTyp,'phaseOffset',args.phaseOffset,...
@@ -37,7 +37,7 @@ function varargout = ramsey(varargin)
                 'notes',args.notes,'gui',args.gui,'save',args.save);
         case 'dz'
             e = ramsey_dz('qubit',args.qubit,'dataTyp',args.dataTyp,'phaseOffset',args.phaseOffset,...
-                'time',args.time,'detuning',args.detuning,'detuneAmp',args.detuneAmp,...
+                'time',args.time,'detuning',args.detuning,...
                 'notes',args.notes,'gui',args.gui,'save',args.save);
         otherwise
             throw(MException('QOS_spin_echo:illegalModeTyp',...
@@ -70,10 +70,14 @@ function varargout = ramsey(varargin)
             ylabel('P');
         else
             hf=figure;
-            h1=errorbar(args.detuneAmp,decay/1e3,decay_err/1e3);
+            h1=errorbar(args.detuning,decay/1e3,decay_err/1e3);
             ylim([0,Ramsey_time(end)*2/1e3])
             ylabel('T2* (us)')
-            xlabel('Detune Amp')
+            if args.mode=='dz'
+                xlabel('Detune Amp')
+            else
+                xlabel('Detuning Freq')
+            end
             set(h1,'LineStyle','-','Marker','o','MarkerFaceColor','b')
         end
         if args.save

@@ -25,7 +25,7 @@ function varargout = ramsey_dz(varargin)
     import sqc.op.physical.*
 
     args = util.processArgs(varargin,{'phaseOffset',0,'detuning',0,'dataTyp','P',...
-        'gui',false,'notes','','detuning',0,'detuneAmp',0,'save',true});
+        'gui',false,'notes','','detuning',0,'save',true});
     q = data_taking.public.util.getQubits(args,{'qubit'});
 
     X2 = op.XY2p(q,0);
@@ -59,7 +59,7 @@ function varargout = ramsey_dz(varargin)
     y = expParam(@procFactory);
     y.name = [q.name,' time'];
     s1 = sweep(x);
-    s1.vals = args.detuneAmp;
+    s1.vals = args.detuning;
     s2 = sweep(y);
     s2.vals = args.time;
     e = experiment();
