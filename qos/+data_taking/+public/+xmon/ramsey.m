@@ -56,22 +56,21 @@ function varargout = ramsey(varargin)
             Ramsey_length2=linspace(min(Ramsey_time),max(Ramsey_time),1000);
             f=@(a,x)(a(1)+a(2)*exp(-(x/a(3)).^2-x/T1).*cos(a(4)*2*pi.*x+a(5)));
             a=[(max(Ramsey_data)+min(Ramsey_data))/2,(max(Ramsey_data)-min(Ramsey_data))/2,Ramsey_time(end)/2,detuning,1];
-            b=nlinfit(Ramsey_time,Ramsey_data,f,a);
+            [b,r,J]=nlinfit(Ramsey_time,Ramsey_data,f,a);
+            [~,se] = toolbox.data_tool.nlparci(b,r,J,0.05);
             decay(II)=abs(b(3));
+            decay_err(II)=se(3);
             deltaf(II)=b(4);
-            
-            
-            
         end
         if size(Ramsey_data0,1)==1
             hf=figure;
             plot(Ramsey_time,Ramsey_data,'o',Ramsey_length2,b(1)+b(2).*exp(-(Ramsey_length2./b(3)).^2-Ramsey_length2/T1).*cos(b(4)*2*pi.*Ramsey_length2+b(5)),'linewidth',2,'MarkerFaceColor','r');
-            title(['T_2^*=' num2str(decay/1e3,'%.2f') 'us, detuning freq=' num2str(1e3*deltaf,'%.2f') 'MHz'])
+            title(['T_2^*=' num2str(decay/1e3,'%.2f') '\pm' num2str(decay_err/1e3,'%.1f') 'us, detuning freq=' num2str(1e3*deltaf,'%.2f') 'MHz'])
             xlabel('Pulse delay (ns)');
             ylabel('P');
         else
             hf=figure;
-            h1=plot(args.detuneAmp,decay/1e3);
+            h1=errorbar(args.detuneAmp,decay/1e3,decay_err/1e3);
             ylim([0,Ramsey_time(end)*2/1e3])
             ylabel('T2* (us)')
             xlabel('Detune Amp')
