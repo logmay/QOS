@@ -27,10 +27,6 @@ import data_taking.public.xmon.spectroscopy1_zpa
 args = util.processArgs(varargin,{'r_avg',[],'biasAmp',-3e4:1e3:3e4,'driveFreq',[],...
     'swpInitBias',0,'swpInitf01',[],'swpBandWdth',30e6,'swpBandStep',1e6,'gui',true,'peak',true,'notes','','save',true});
 q = data_taking.public.util.getQubits(args,{'qubit'});
-if isempty(args.driveFreq)
-    args.driveFreq = q.f01-3*q.t_spcFWHM_est:...
-        q.t_spcFWHM_est/10:q.f01+3*q.t_spcFWHM_est;
-end
 if isempty(args.swpInitf01)
     args.swpInitf01=q.f01;
 end
@@ -95,7 +91,7 @@ for II=1:length(inx)
     if args.gui
         h=figure(15);
         hf=imagesc(Bias,Frequency/1e9,P);
-        xlabel('q.name zpa amplitude')
+        xlabel([q.name ' zpa amplitude'])
         ylabel('Frequency (GHz)')
         set(h.Children,'Ydir','normal');
         fitval=polyval(f_fit,bias0(inx(II+1:end)));
@@ -117,8 +113,8 @@ end
 %     throw(MException('QOS_zpls2f01:fittingFailed','fitting failed.'));
 % end
 
-param=polyfit(biasselected,f0list,2);
-title(h.Children,['q.name Param: ' num2str(param,'%.5e ') ])
+param=polyfit(biasselected,f0list*1e9,2);
+title(h.Children,[q.name ' Param: ' num2str(param,'%.5e ') ])
 
 QS = qes.qSettings.GetInstance();
 if ischar(args.save)

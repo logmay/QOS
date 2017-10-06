@@ -65,9 +65,9 @@ end
 
 %% S21 fine scan for each qubit dip, you can scan the power(by scan amp in log scale) to find the dispersive shift
 amps=[logspace(log10(1000),log10(30000),41)];
-for II =  2
+for II =  1:5
     data1{II}=s21_rAmp('qubit',qubits{II},'freq',[dips(II)-1.e6:0.05e6:dips(II)+2.e6],'amp',amps,...  % logspace(log10(1000),log10(32768),25)
-        'notes','30dB @ RT','gui',true,'save',true,'r_avg',500);
+        'notes','23dB @ RT','gui',true,'save',true,'r_avg',500);
 end
 %% figure out dispersive shift
 for II=[1 2 3]
@@ -209,12 +209,25 @@ spectroscopy1_zdc('qubit','q2',...
     'r_avg',1000,'gui',true,'save',true);
 %% dp
 ramsey('mode','dp','qubit','q2',...
-    'time',[0:16*3:1600*10],'detuning',[2*1e6 -2*1e6],'T1',4.66,'fit',true,...
+    'time',[0:16*3:1600*10],'detuning',[5*1e6:-0.5e6:-5*1e6],'T1',4.66,'fit',true,...
     'dataTyp','P','notes','pulse tube on','gui',true,'save',true,'r_avg',3000);
 %% dz
 ramsey('mode','dz','qubit','q2',...
     'time',[0:16*3:1600*5],'detuning',[-0.1e4,0.1e4],'T1',4.66,'fit',true,...
     'dataTyp','P','notes','pulse tube on','gui',true,'save',true,'r_avg',3000);
+%% time dependent T2* 
+t0=now;
+for II=1:500
+[~,T2(II),T2_err(II)]=ramsey('mode','dp','qubit','q2',...
+    'time',[0:16*3:1600*8],'detuning',3*1e6,'T1',4.66,'fit',true,...
+    'dataTyp','P','notes','pulse tube on','gui',false,'save',true,'r_avg',3000);
+tt(II)=(now-t0)*24;
+figure(11)
+errorbar(tt,T2/1e3,T2_err/1e3,'-o','MarkerFaceColor','r')
+xlabel('Time (h)')
+ylabel('T2 (us)')
+drawnow
+end
 %%
 T1_1('qubit','q2','biasAmp',0,'time',[0:160*3:30e3],'biasDelay',16,...
     'gui',true,'save',true,'r_avg',3000,'fit',true)

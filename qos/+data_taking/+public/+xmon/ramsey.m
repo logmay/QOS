@@ -47,37 +47,33 @@ function varargout = ramsey(varargin)
     if args.fit % Add by GM, 170623
         Ramsey_data0=e.data{1,1};
         Ramsey_time=args.time/2;
-        
-        for II=1:size(Ramsey_data0,1)
+        loopn=size(Ramsey_data0,1);
+        T2=NaN(1,loopn);
+        T2_err=NaN(1,loopn);
+        detuningf=NaN(1,loopn);
+        for II=1:loopn
             Ramsey_data=Ramsey_data0(II,:);
-            detuning=toolbox.data_tool.fitting.FFT_Peak(Ramsey_time,Ramsey_data);
-            T1=args.T1*1000;
-
-            Ramsey_length2=linspace(min(Ramsey_time),max(Ramsey_time),1000);
-            f=@(a,x)(a(1)+a(2)*exp(-(x/a(3)).^2-x/T1).*cos(a(4)*2*pi.*x+a(5)));
-            a=[(max(Ramsey_data)+min(Ramsey_data))/2,(max(Ramsey_data)-min(Ramsey_data))/2,Ramsey_time(end)/2,detuning,1];
-            [b,r,J]=nlinfit(Ramsey_time,Ramsey_data,f,a);
-            [~,se] = toolbox.data_tool.nlparci(b,r,J,0.05);
-            decay(II)=abs(b(3));
-            decay_err(II)=se(3);
-            deltaf(II)=b(4);
+            T1=args.T1;
+            fitType=2;
+            [T2(II),T2_err(II),detuningf(II),fitramsey_time,fitramsey_data]=toolbox.data_tool.fitting.ramseyFit(Ramsey_time,Ramsey_data,fitType,T1*1000);
         end
         if size(Ramsey_data0,1)==1
-            hf=figure;
-            plot(Ramsey_time,Ramsey_data,'o',Ramsey_length2,b(1)+b(2).*exp(-(Ramsey_length2./b(3)).^2-Ramsey_length2/T1).*cos(b(4)*2*pi.*Ramsey_length2+b(5)),'linewidth',2,'MarkerFaceColor','r');
-            title(['T_2^*=' num2str(decay/1e3,'%.2f') '\pm' num2str(decay_err/1e3,'%.1f') 'us, detuning freq=' num2str(1e3*deltaf,'%.2f') 'MHz'])
+            hf=figure(21);
+            plot(Ramsey_time,Ramsey_data,'o',fitramsey_time,fitramsey_data,'linewidth',2,'MarkerFaceColor','r');
+            title(['T_2^*=' num2str(T2/1e3,'%.2f') '\pm' num2str(T2_err/1e3,'%.1f') 'us, \Deltaf=' num2str(1e3*detuningf,'%.2f') 'MHz'])
             xlabel('Pulse delay (ns)');
             ylabel('P');
         else
-            hf=figure;
-            h1=errorbar(args.detuning,decay/1e3,decay_err/1e3);
+            hf=figure(21);
+            h1=errorbar(args.detuning,T2/1e3,T2_err/1e3);
             ylim([0,Ramsey_time(end)*2/1e3])
             ylabel('T2* (us)')
             if args.mode=='dz'
                 xlabel('Detune Amp')
             else
-                xlabel('Detuning Freq')
+                xlabel('Detuning Freq (Hz)')
             end
+            title(['Fit average T_2^* = ' num2str(mean(T2)/1e3,'%.2f') '\pm' num2str(std(T2)/1e3,'%.1f') 'us'])
             set(h1,'LineStyle','-','Marker','o','MarkerFaceColor','b')
         end
         if args.save
@@ -87,5 +83,7 @@ function varargout = ramsey(varargin)
                 num2str(ceil(99*rand(1,1)),'%0.0f'),'_.fig']);
             saveas(hf,dataSvName);
         end
+        varargout{2} = T2;
+        varargout{3} = T2_err;
     end
 end
