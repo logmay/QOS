@@ -50,7 +50,7 @@ s21_rAmp('qubit', qubits{1},...
     'notes','H5H6','gui',true,'save',true);
 %%
 s21_rAmp('qubit', qubits{1},...
-    'freq',6.e9:1e6:7.e9,'amp',1e4,...
+    'freq',6.5e9:1e6:7.e9,'amp',1e4,...
     'notes','','gui',true,'save',true);
 %%
 for II=1:numel(qubits)
@@ -143,14 +143,14 @@ for II=2
 end
 % sendmail2me('minggong@ustc.edu.cn', 'Measurement Done')
 %% Spectrum single
-for II=10
+for II=2
     cP=getQSettings('qr_xy_uSrcPower', qubits{II});
     setQSettings('qr_xy_uSrcPower',7-20, qubits{II});
     setQSettings('spc_sbFreq',200e6, qubits{II});
     QS.saveSSettings({qubits{II},'spc_driveAmp'},5000)
     data0{II}=spectroscopy1_zpa('qubit',qubits{II},...
-        'biasAmp',000,'driveFreq',[4.5e9:1e6:5.8e9],...
-        'r_avg',3000,'notes','200M sb, -20dB','gui',true,'save',true,'dataTyp','S21');
+        'biasAmp',000,'driveFreq',[5.5e9:1e6:5.95e9],...
+        'r_avg',1000,'notes','200M sb, -20dB','gui',true,'save',true,'dataTyp','S21');
     setQSettings('qr_xy_uSrcPower',cP, qubits{II});
 end
 %% Spectrum Auto
@@ -197,30 +197,33 @@ tuneup.optReadoutLn('qubit','q7','gui',true,'save',true,'bnd',[1000,8000],'optnu
 %% automatic function, after previous steps pined down qubit parameters,
 q = qubits{2};
 tuneup.correctf01byRamsey('qubit',q,'gui',true,'save',true); % measure f01 by spectrum
-XYGate ={'X', 'Y', 'X/2', 'Y/2', '-X/2', '-Y/2'};
+XYGate ={'X',  'X/2'};
 for II = 1:numel(XYGate)
     tuneup.xyGateAmpTuner('qubit',q,'gateTyp',XYGate{II},'gui',true,'save',true); % finds the XY gate amplitude and update to settings
 end
 tuneup.optReadoutFreq('qubit',q,'gui',true,'save',true);
-tuneup.iq2prob_01('qubit',q,'numSamples',1e4,'gui',true,'save',true);
+tuneup.iq2prob_01('qubit',q,'numSamples',5e4,'gui',true,'save',true);
 %%
 spectroscopy1_zdc('qubit','q2',...
     'biasAmp',[-10000:250:10000],'driveFreq',[5.e9:2e6:6.4e9],'dataTyp','S21','note','F2',...
     'r_avg',1000,'gui',true,'save',true);
 %% dp
 ramsey('mode','dp','qubit','q2',...
-    'time',[0:16*3:1600*10],'detuning',[5*1e6:-0.5e6:-5*1e6],'T1',4.66,'fit',true,...
+    'time',[0:16*3:1600*10],'detuning',[5*1e6:-1e6:-5*1e6],'T1',5,'fit',true,...
     'dataTyp','P','notes','pulse tube on','gui',true,'save',true,'r_avg',3000);
 %% dz
 ramsey('mode','dz','qubit','q2',...
     'time',[0:16*3:1600*5],'detuning',[-0.1e4,0.1e4],'T1',4.66,'fit',true,...
     'dataTyp','P','notes','pulse tube on','gui',true,'save',true,'r_avg',3000);
 %% time dependent T2* 
+tt=[];
+T2=[];
+T2_err=[];
 t0=now;
 for II=1:500
 [~,T2(II),T2_err(II)]=ramsey('mode','dp','qubit','q2',...
-    'time',[0:16*3:1600*8],'detuning',3*1e6,'T1',4.66,'fit',true,...
-    'dataTyp','P','notes','pulse tube on','gui',false,'save',true,'r_avg',3000);
+    'time',[0:16*3:1600*10],'detuning',3*1e6,'T1',4.66,'fit',true,...
+    'dataTyp','P','notes','plug in thermometer','gui',false,'save',true,'r_avg',3000);
 tt(II)=(now-t0)*24;
 figure(11)
 errorbar(tt,T2/1e3,T2_err/1e3,'-o','MarkerFaceColor','r')
@@ -232,13 +235,13 @@ end
 T1_1('qubit','q2','biasAmp',0,'time',[0:160*3:30e3],'biasDelay',16,...
     'gui',true,'save',true,'r_avg',3000,'fit',true)
 %%
-T1_1('qubit','q2','biasAmp',[-6100:0.1e3:6000],'time',[0:160*3:30e3],'biasDelay',16,...
-    'gui',true,'save',true,'r_avg',3000,'fit',true,'notes','unplug thermalmeter')
+T1_1('qubit','q2','biasAmp',[-3e4:0.1e3:3e4],'time',[0:160*3:30e3],'biasDelay',16,...
+    'gui',true,'save',true,'r_avg',3000,'fit',true,'notes','plug in thermolmeter')
 %%
 T1_1_s21('qubit','q6','biasAmp',000,'time',[0:100:8e3],'biasDelay',0,...
     'gui',true,'save',true,'r_avg',5000)
 %%
-T1_1_s21('qubit','q2','biasAmp',[-3e4:1e3:3e4],'time',[0:200:10e3],...
+T1_1_s21('qubit','q2','biasAmp',[-3e4:0.1e3:3e4],'time',[0:200:30e3],...
     'gui',true,'save',true,'r_avg',5000)
 %%
 for ii=1:1000

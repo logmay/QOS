@@ -342,3 +342,5 @@
 06-Oct-2017 15:56:22 USTCDAC:Open:D_18 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
 06-Oct-2017 15:56:44 USTCDAC:Open:D_18 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
 06-Oct-2017 15:57:05 USTCDAC:Open:D_18 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+06-Oct-2017 16:00:53 USTCDAC:Open:D_18 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+06-Oct-2017 16:04:34 USTCDAC:Open:D_18 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。

@@ -1,9 +1,12 @@
 function result=qbitstatesimulate(celljsonorfile)
 % zhaouv https://zhaouv.github.io/
+% qutip的circuit能识别的门的列表
+% ["RX","RY","RZ","SQRTNOT","SNOT","PHASEGATE","CRX","CRY","CRZ","CPHASE","CNOT","CSIGN",
+% "BERKELEY","SWAPalpha","SWAP","ISWAP","SQRTSWAP","SQRTISWAP","FREDKIN","TOFFOLI","GLOBALPHASE"]
 
-warning('替换为 qutipenv=localconfig.pythonconfig.qutipenv;统一配置?否则若放入qos中会容易在移植时出bug')
+% warning('替换为 qutipenv=localconfig.pythonconfig.qutipenv;统一配置?否则若放入qos中会容易在移植时出bug')
 qutipenv='C:\ProgramData\Anaconda3\envs\qutip-env\python.exe';
-%[~,qutipenv,~]=pyversion;%如果默认的python环境有qutip,使用此句即可
+% [~,qutipenv,~]=pyversion;%如果默认的python环境有qutip,使用此句即可
 
 %{
 %example1
@@ -64,8 +67,6 @@ else
 end
 %stringorfile=',,ry90,cz1,rx-90,ry-90,,rx-90,cz1,,ry90,rx90#rx-90,ry90,rx90,cz2,,ry90,x,ry-90,cz2,rx-90,ry-90,rx90';
 
-
-
 mpath = mfilename('fullpath');
 i=findstr(mpath,'\'); %#ok<FSTR>
 mpath=mpath(1:i(end));
@@ -77,7 +78,7 @@ if ~(status==0)
 end
 
 result=jsondecode(result);
-
+result=-result.real-1j*result.imag;
 end
 
 function str=tempcell2str(tempcell)
