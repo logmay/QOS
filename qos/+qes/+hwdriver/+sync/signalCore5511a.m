@@ -25,47 +25,35 @@ classdef signalCore5511a < qes.hwdriver.icinterface_compatible
 		end
 		function setFrequency(obj, f, chnl)
 			devicehandle = calllib('sc5511a','sc5511a_open_device',obj.chnlName{chnl}); 
-            pause(0.1)
 			calllib('sc5511a','sc5511a_set_freq',devicehandle,f);
-            pause(0.1)
 			calllib('sc5511a','sc5511a_close_device',devicehandle); 
 		end
 		function f = getFrequency(obj, chnl)
 			devicehandle = calllib('sc5511a','sc5511a_open_device',obj.chnlName{chnl}); 
-            pause(0.1)
 			[~,~,s] = calllib('sc5511a','sc5511a_get_rf_parameters',devicehandle,{});
 			f = s.rf1_freq;
-            pause(0.1)
 			calllib('sc5511a','sc5511a_close_device',devicehandle); 
 		end
 		function setPower(obj, p, chnl)
 			devicehandle = calllib('sc5511a','sc5511a_open_device',obj.chnlName{chnl}); 
-            pause(0.1)
 			calllib('sc5511a','sc5511a_set_level',devicehandle,p); 
-            pause(0.1)
 			calllib('sc5511a','sc5511a_close_device',devicehandle); 
 		end
 		function f = getPower(obj, chnl)
 			devicehandle = calllib('sc5511a','sc5511a_open_device',obj.chnlName{chnl}); 
-            pause(0.1)
 			[~,~,s] = calllib('sc5511a','sc5511a_get_rf_parameters',devicehandle,{});
 			f = s.rf_level;
-            pause(0.1)
 			calllib('sc5511a','sc5511a_close_device',devicehandle); 
 		end
 		function setOnOff(obj, onoff, chnl)
 			devicehandle = calllib('sc5511a','sc5511a_open_device',obj.chnlName{chnl}); 
-            pause(0.1)
 			calllib('sc5511a','sc5511a_set_output',devicehandle,onoff);
-            pause(0.1)
 			calllib('sc5511a','sc5511a_close_device',devicehandle); 
 		end
 		function val = getOnOff(obj, chnl)
 			devicehandle = calllib('sc5511a','sc5511a_open_device',obj.chnlName{chnl}); 
-            pause(0.1)
 			[~,~,s]=calllib('sc5511a','sc5511a_get_device_status',devicehandle,{});
 			val = s.operate_status.rf1_out_enable;
-            pause(0.1)
 			calllib('sc5511a','sc5511a_close_device',devicehandle); 
 		end
     end
@@ -80,9 +68,7 @@ classdef signalCore5511a < qes.hwdriver.icinterface_compatible
             end
 			for ii = 1:numel(obj.chnlName)
 				devicehandle = calllib('sc5511a','sc5511a_open_device',obj.chnlName{ii}); 
-                pause(0.1)
 				calllib('sc5511a','sc5511a_set_clock_reference',devicehandle,0,1);
-                pause(0.1)
 				calllib('sc5511a','sc5511a_close_device',devicehandle);
 			end
 			
