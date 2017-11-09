@@ -192,7 +192,6 @@ qubits = {'q2'};
 for ii = 1:numel(qubits)
     q = qubits{ii};
     setQSettings('r_avg',2000,q);
-    tuneup.iq2prob_01('qubit',q,'numSamples',1e4,'gui',true,'save',true);
     tuneup.correctf01byRamsey('qubit',q,'gui',true,'save',true);
     tuneup.xyGateAmpTuner('qubit',q,'gateTyp','X','AE',false,'gui',true,'save',true);
     tuneup.iq2prob_01('qubit',q,'numSamples',1e4,'gui',true,'save',true);

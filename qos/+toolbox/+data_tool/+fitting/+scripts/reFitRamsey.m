@@ -28,6 +28,8 @@ T2_err=NaN(1,loopn);
 detuningf=NaN(1,loopn);
 for II=1:loopn
     Ramsey_data=Ramsey_data0(II,:);
+%     Ramsey_data=Ramsey_data(1:140);
+%     Ramsey_time=Ramsey_time(1:140);
     [T2(II),T2_err(II),detuningf(II),fitramsey_time,fitramsey_data]=toolbox.data_tool.fitting.ramseyFit(Ramsey_time,Ramsey_data,fitType,T1*1000);
 end
 if size(Ramsey_data0,1)==1

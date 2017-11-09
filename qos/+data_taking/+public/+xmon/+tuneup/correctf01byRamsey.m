@@ -47,8 +47,6 @@ function varargout = correctf01byRamsey(varargin)
     t = t/daSamplingRate;
     tf = linspace(t(1),t(end),200);
     
-    % P = B*(exp(-t/td)*(sin(2*pi*freq*t+D)+C));
-
     [pxx,f] = plomb(Pp,t);
     [~,idx] = max(pxx);
     freqEstimation = f(idx);
@@ -86,7 +84,7 @@ function varargout = correctf01byRamsey(varargin)
     [pxx,f] = plomb(Pn,t);
     [~,idx] = max(pxx);
     freqEstimation = f(idx);
-    
+        
     rng = range(Pn);
     [B,C,D,freqn,tdn,cin] =...
         toolbox.data_tool.fitting.sinDecayFit_m(t,Pn,...

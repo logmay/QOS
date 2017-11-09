@@ -23,7 +23,7 @@ setQSettings('spc_driveLn',6e3);
 setQSettings('zdc_amp',0);
 %%
 for II=1:12
-setQSettings('channels.z_dc.chnl',II,['q' num2str(II)]);
+    setQSettings('channels.z_dc.chnl',II,['q' num2str(II)]);
 end
 %%
 setQSettings('channels.xy_mw.chnl',3);
@@ -90,7 +90,7 @@ end
 % r_freq=[6.849e9 6.819e9 6.794e9 6.755e9 6.708e9 6.683e9 6.66e9 6.642e9 6.624e9 6.591e9];
 r_amp=[1.392e4 1.29e4 1.024e4 9487 1.024e4 8786 7536];
 for II=1:numel(r_amp)
-%     setQSettings('r_freq',r_freq(II),qubits{11-II});
+    %     setQSettings('r_freq',r_freq(II),qubits{11-II});
     setQSettings('r_amp',r_amp(II),qubits{II});
 end
 %% Get all S21 curves with current readout setup, and update r_freq
@@ -173,7 +173,7 @@ rabi_amp1('qubit','q2','biasAmp',0,'biasLonger',10,...
     'xyDriveAmp',[0:500:3e4],'detuning',0,'driveTyp','X','notes','20dB attn.',...
     'dataTyp','S21','r_avg',2000,'gui',true,'save',true);
 % rabi_amp1('qubit','q2','xyDriveAmp',[0:500:3e4]);  % lazy mode
-%% 
+%%
 rabi_long1('qubit','q2','biasAmp',0,'biasLonger',10,...
     'xyDriveAmp',[0.1e4],'xyDriveLength',[20:20:10000],'detuning',[0],'driveTyp','X','notes','',...
     'dataTyp','P','r_avg',1000,'gui',true,'save',true);
@@ -215,18 +215,18 @@ ramsey('mode','dp','qubit','q2',...
 ramsey('mode','dz','qubit','q2',...
     'time',[0:16*3:1600*5],'detuning',[-0.1e4,0.1e4],'T1',4.66,'fit',true,...
     'dataTyp','P','notes','pulse tube on','gui',true,'save',true,'r_avg',3000);
-%% time dependent T2* 
+%% time dependent T2*
 t0=now;
 for II=1:500
-[~,T2(II),T2_err(II)]=ramsey('mode','dp','qubit','q2',...
-    'time',[0:16*3:1600*8],'detuning',3*1e6,'T1',4.66,'fit',true,...
-    'dataTyp','P','notes','pulse tube on','gui',false,'save',true,'r_avg',3000);
-tt(II)=(now-t0)*24;
-figure(11)
-errorbar(tt,T2/1e3,T2_err/1e3,'-o','MarkerFaceColor','r')
-xlabel('Time (h)')
-ylabel('T2 (us)')
-drawnow
+    [~,T2(II),T2_err(II)]=ramsey('mode','dp','qubit','q2',...
+        'time',[0:16*3:1600*8],'detuning',3*1e6,'T1',4.66,'fit',true,...
+        'dataTyp','P','notes','pulse tube on','gui',false,'save',true,'r_avg',3000);
+    tt(II)=(now-t0)*24;
+    figure(11)
+    errorbar(tt,T2/1e3,T2_err/1e3,'-o','MarkerFaceColor','r')
+    xlabel('Time (h)')
+    ylabel('T2 (us)')
+    drawnow
 end
 %%
 T1_1('qubit','q2','biasAmp',0,'time',[0:160*3:30e3],'biasDelay',16,...
@@ -240,29 +240,64 @@ T1_1_s21('qubit','q6','biasAmp',000,'time',[0:100:8e3],'biasDelay',0,...
 %%
 T1_1_s21('qubit','q2','biasAmp',[-3e4:1e3:3e4],'time',[0:200:10e3],...
     'gui',true,'save',true,'r_avg',5000)
-%%
-for ii=1:1000
-[~,f01(end+1)]=tuneup.correctf01byRamsey('qubit','q2','gui',false,'save',true);
-figure(2);
-subplot(2,1,1);
-hist(f01);
-title(['STD:' num2str(std(f01),'%.3e') ', mean:' num2str(mean(f01),'%.3e') ', rate:' num2str(std(f01)/mean(f01),'%.3e')])
-subplot(2,1,2)
-plot(f01,'.')
-drawnow;
+%% qubit freq stability
+f01=[];
+f01_err=[];
+for ii=1:30
+    [~,f01(end+1),f01_err(end+1)]=tuneup.correctf01byRamsey_1('qubit','q2','gui',true,'save',true);
+    figure(2);
+    subplot(2,1,1);
+    hist(f01);
+    xlabel('f01 (Hz)')
+    ylabel('p')
+    title(['f01 STD:' num2str(std(f01),'%.3e') ', error mean:' num2str(mean(f01_err),'%.3e')])
+    subplot(2,1,2)
+    errorbar(1:ii,f01,f01_err,'.')
+    xlabel('Measurement Index')
+    ylabel('f01 (Hz)')
+    drawnow;
+end
+%% qubit freq stability versus attenuator
+attns=[0:3:15];
+for jj=1:length(attns)
+    try
+        qes.hwdriver.sync.HWUSBATT(attns(jj))
+        pause(10)
+        f01=[];
+        f01_err=[];
+        for ii=1:25
+            [~,f01(end+1),f01_err(end+1)]=tuneup.correctf01byRamsey_1('qubit','q2','gui',true,'save',true);
+            figure(21);
+            subplot(2,1,1);
+            hist(f01);
+            xlabel('f01 (Hz)')
+            ylabel('p')
+            title(['f01 STD:' num2str(std(f01),'%.3e') ', error mean:' num2str(mean(f01_err),'%.3e')])
+            subplot(2,1,2)
+            errorbar(1:ii,f01,f01_err,'.')
+            xlabel('Measurement Index')
+            ylabel('f01 (Hz)')
+            drawnow;
+            saveas(gcf,['E:\Data\matlab\20170921_YYS_3bit\f01Stab_withUPS_withAtt3_' num2str(attns(jj)) '.fig'])
+            saveas(gcf,['E:\Data\matlab\20170921_YYS_3bit\f01Stab_withUPS_withAtt3_' num2str(attns(jj)) '.png'])
+            save(['E:\Data\matlab\20170921_YYS_3bit\f01Stab_withUPS_withAtt3_' num2str(attns(jj)) '.mat'],'f01','f01_err')
+        end
+    end
 end
 %% fully auto callibration
 qubits = {'q2'};
 for ii = 1:numel(qubits)
     q = qubits{ii};
-    setQSettings('r_avg',2000,q);
+    setQSettings('r_avg',1000,q);
+    tuneup.iq2prob_01('qubit',q,'numSamples',1e4,'gui',true,'save',true);
     tuneup.correctf01byRamsey('qubit',q,'gui',true,'save',true);
     tuneup.xyGateAmpTuner('qubit',q,'gateTyp','X','AE',false,'gui',true,'save',true);
-    tuneup.iq2prob_01('qubit',q,'numSamples',1e4,'gui',true,'save',true);
     XYGate ={'X','X/2'};
     for jj = 1:numel(XYGate)
         tuneup.xyGateAmpTuner('qubit',q,'gateTyp',XYGate{jj},'AE',true,'AENumPi',21,'gui',true,'save',true);
     end
+    [~,~,vis]=tuneup.iq2prob_01('qubit',q,'numSamples',2e4,'gui',true,'save',true);
+    disp(vis)
 end
 %%
 state = '|0>-i|1>';
@@ -278,5 +313,5 @@ h = figure();bar3(real(chi));h = figure();bar3(imag(chi));
 setQSettings('r_avg',500);
 numGates = 1:1:10;
 [Pref,Pi] = randBenchMarking('qubit1','q2','qubit2',[],...
-       'process','X/2','numGates',numGates,'numReps',70,...
-       'gui',true,'save',true);
+    'process','X/2','numGates',numGates,'numReps',70,...
+    'gui',true,'save',true);
