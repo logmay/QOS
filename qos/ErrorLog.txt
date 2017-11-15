@@ -388,3 +388,13 @@
 11-Nov-2017 16:44:17 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
 11-Nov-2017 16:51:15 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
 11-Nov-2017 16:54:30 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+11-Nov-2017 19:32:03 USTCDAC:Open:D_03 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+11-Nov-2017 19:32:25 USTCDAC:Open:D_03 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+11-Nov-2017 19:32:47 USTCDAC:Open:D_03 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+11-Nov-2017 19:33:08 USTCDAC:Open:D_03 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+13-Nov-2017 10:16:34 USTCDAC:GetReturn:D_03 Error code:4 --> Windows API failed: 系统无法打开文件。
+13-Nov-2017 10:16:34 USTCDAC:GetReturn:D_24 Error code:2 --> Windows API failed: 系统找不到指定的文件。
+13-Nov-2017 10:16:34 USTCDAC:GetReturn:D_20 Error code:2 --> Windows API failed: 系统找不到指定的文件。
+13-Nov-2017 10:16:34 USTCDAC:GetReturn:D_23 Error code:2 --> Windows API failed: 系统找不到指定的文件。
+13-Nov-2017 10:16:34 USTCDAC:GetReturn:D_19 Error code:2 --> Windows API failed: 系统找不到指定的文件。
+13-Nov-2017 10:16:34 USTCDAC:GetReturn:D_11 Error code:2 --> Windows API failed: 系统找不到指定的文件。

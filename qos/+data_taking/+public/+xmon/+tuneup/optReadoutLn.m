@@ -3,7 +3,7 @@ function varargout = optReadoutLn(varargin)
 import qes.*
 import data_taking.public.util.getQubits
 
-args = util.processArgs(varargin,{'bnd',[6000,10000],'gui',true,'save',true});
+args = util.processArgs(varargin,{'bnd',[6000,10000],'optnum',11,'gui',true,'save',true});
 q = data_taking.public.util.getQubits(args,{'qubit'});
 qubit = q.name;
  
@@ -17,7 +17,7 @@ qubit = q.name;
 % options = optimset('PlotFcns',@optimplotfval,'TolX',0.02,'MaxIter',30);
 % r_amp = fminbnd(@getMaxfid,args.bnd(1),args.bnd(2),options);
 
-rlns=linspace(args.bnd(1),args.bnd(2),11);
+rlns=linspace(args.bnd(1),args.bnd(2),args.optnum);
 h=figure;
 for ii=1:length(rlns)
     

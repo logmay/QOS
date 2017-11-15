@@ -48,6 +48,8 @@ function varargout = ramsey_dz(varargin)
     X2_ = copy(X2);
     X2.phase = args.phaseOffset;
     function procFactory(delay)
+%         X2_.f01=polyval(q.zpls_amp2f01,Z.amp)-3e6;
+%         X2.f01=polyval(q.zpls_amp2f01,Z.amp)-3e6;
         Z.ln = delay;
         proc = X2_*Z*X2;
         proc.Run();

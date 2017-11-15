@@ -42,6 +42,7 @@ end
 
 X = op.mwDrive4Spectrum(driveQubit);
 R = measure.resonatorReadout_ss(readoutQubit);
+% R = measure.resonatorReadout(readoutQubit);
 R.delay = X.length;
 switch args.dataTyp
     case 'P'

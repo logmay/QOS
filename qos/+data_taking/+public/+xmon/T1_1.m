@@ -40,25 +40,28 @@ if args.fit % Add by GM, 170623
         td0 = time(end)/2;
         
         [A_,B_,td_,temp] = toolbox.data_tool.fitting.expDecayFit(time,z,A0,B0,td0);
+        td_=td_/2e3;
+        time=time/2e3;
+        wci=diff(temp(3,:))/2e3;
         
         if args.gui
             tf = linspace(time(1),time(end),100);
-            zf = toolbox.data_tool.fitting.expDecay([A_,B_,td_],tf);
+            zf = toolbox.data_tool.fitting.expDecay([A_,B_,td_*2e3],tf*2e3);
             hf=figure;
-            plot(gca, time/2000,z,'o','MarkerFaceColor','r');
+            plot(gca, time,z,'o','MarkerFaceColor','r');
             hold on;
-            plot(gca,tf/2000,zf,'r');
-            plot(gca,temp(3,:)/2000,[zf(end),zf(end)],'g-+');
-            plot(gca,td_/2000,zf(end),'r+');
+            plot(gca,tf,zf,'r');
+            plot(gca,wci,[zf(end),zf(end)],'g-+');
+            plot(gca,td_,zf(end),'r+');
             hold off;
             xlabel('Time (us)');
             ylabel('diff(P<1>)')
             drawnow;
             legend('Raw','Fit','Errorbar','FitValue')
             if td_<time(end)
-                title(['Fit T_1 = ' num2str(td_/2000,'%.2f') ' us'])
+                title([args.qubit ' Fit T_1 = ' num2str(td_,'%.2f') '\pm' num2str(wci,'%.2f') ' us'])
             else
-                title('Fit failed!')
+                title([args.qubit ' Fit failed!'])
             end
         end
     else
@@ -75,10 +78,11 @@ if args.fit % Add by GM, 170623
             td(ii) = td_;
         end
         
+        time = time/2e3;
+        td = td/2e3;
+        wci = wci/2e3;
+            
         if args.gui
-            time = time/2e3;
-            td = td/2e3;
-            wci = wci/2e3;
             
             hf=figure();
             imagesc(bias,time,z');
@@ -88,9 +92,9 @@ if args.fit % Add by GM, 170623
             xlabel('Z Bias');
             ylabel('Time (us)');
             if mean(td)<time(end)
-                title(['Fit average T_1 = ' num2str(mean(td),'%.2f') ' us'])
+                title([args.qubit ' Fit average T_1 = ' num2str(mean(td),'%.2f') ' us'])
             else
-                title('Fit failed!')
+                title([args.qubit ' Fit failed!'])
             end
             colorbar
         end
@@ -102,6 +106,8 @@ if args.fit % Add by GM, 170623
             num2str(ceil(99*rand(1,1)),'%0.0f'),'_.fig']);
         saveas(hf,dataSvName);
     end
+    varargout{1}=td_;
+    varargout{2}=wci;
 end
 
 end

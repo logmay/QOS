@@ -87,7 +87,7 @@ figSvName = fullfile(QS.loadSSettings('data_path'),...
 
 for II=1:length(inx)
     [f,f_fit] = sweepFreq(II,biasselected,f0list);
-    e = spectroscopy1_zpa('qubit',q,'biasAmp',bias0(inx(II)),'driveFreq',f,'save',false,'gui',false);
+    e = spectroscopy1_zpa('qubit',q,'biasAmp',bias0(inx(II)),'driveFreq',f,'save',false,'gui',false,'dataTyp',args.dataTyp);
     [~,lo]=ismember(f,Frequency);
     f__=f;
     if lo(1)==0 && f(end)+args.swpBandStep>=Frequency(1)
@@ -104,7 +104,7 @@ for II=1:length(inx)
         
     Frequency=union(f__,Frequency);
     [~,lo]=ismember(f,Frequency);
-    data=cell2mat(e.data);
+    data=cell2mat(e.data{1,1});
     P(lo(1):lo(end),inx(II))=data;
     if args.peak
         [~,finx]=max(data);

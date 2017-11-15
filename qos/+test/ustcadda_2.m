@@ -55,19 +55,20 @@ plot(mean(dataq));hold off
 legend('3','4')
 %%
 
-for ii=1:100
+for ii=1:1
     disp(ii)
 t=1:2000;
-wave1=32768+32768/5*sin(2*pi*t/40);
-wave2=32768+32768/5*cos(2*pi*t/40);
+wave1=32768+32768*sin(2*pi*t/40);
+wave2=32768+32768*cos(2*pi*t/40);
 ustcaddaObj.runReps = 1000;
 ustcaddaObj.SendWave(2,wave1); % 620
 ustcaddaObj.SendWave(1,wave2); % 750
 ustcaddaObj.adRecordLength = 1100;
 [datai,dataq] = ustcaddaObj.Run(true);
 figure(11);
+subplot(2,1,1)
 hold on;plot(mean(datai,1))
-figure(12);
+subplot(2,1,2)
 hold on;plot(mean(dataq,1))
 % figure;plot(datai(1,:));hold on;plot(dataq(1,:))
 % figure;plot(datai(end,:));hold on;plot(dataq(end,:))
