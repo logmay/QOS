@@ -104,7 +104,11 @@ for II=1:length(inx)
         
     Frequency=union(f__,Frequency);
     [~,lo]=ismember(f,Frequency);
-    data=cell2mat(e.data{1,1});
+    if strcmp(args.dataTyp,'S21')
+        data=cell2mat(e.data{1,1});
+    else
+        data=cell2mat(e.data);
+    end
     P(lo(1):lo(end),inx(II))=data;
     if args.peak
         [~,finx]=max(data);

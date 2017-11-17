@@ -7,7 +7,7 @@ detuning=toolbox.data_tool.fitting.FFT_Peak(Ramsey_time,Ramsey_data);
 if fitType==1
     f=@(a,x)(a(1)+a(2)*exp(-(x/a(3))).*cos(a(4)*2*pi.*x+a(5)));
 elseif fitType==2
-    f=@(a,x)(a(1)+a(2)*exp(-(x/a(3)).^2-x/T1).*cos(a(4)*2*pi.*x+a(5)));
+    f=@(a,x)(a(1)+a(2)*exp(-(x/a(3)).^2-x/2/T1).*cos(a(4)*2*pi.*x+a(5)));
 end
 a=[(max(Ramsey_data)+min(Ramsey_data))/2,(max(Ramsey_data)-min(Ramsey_data))/2,Ramsey_time(end)/4,detuning,1e-6];
 [b,r,J]=nlinfit(Ramsey_time,Ramsey_data,f,a);
@@ -22,7 +22,7 @@ fitramsey_time=linspace(min(Ramsey_time),max(Ramsey_time),1000);
 if fitType==1
     fitramsey_data=b(1)+b(2).*exp(-(fitramsey_time./b(3))).*cos(b(4)*2*pi.*fitramsey_time+b(5));
 else
-    fitramsey_data=b(1)+b(2).*exp(-(fitramsey_time./b(3)).^2-fitramsey_time/T1).*cos(b(4)*2*pi.*fitramsey_time+b(5));
+    fitramsey_data=b(1)+b(2).*exp(-(fitramsey_time./b(3)).^2-fitramsey_time/2/T1).*cos(b(4)*2*pi.*fitramsey_time+b(5));
 end
 end
 

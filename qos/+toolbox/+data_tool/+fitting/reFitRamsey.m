@@ -1,4 +1,7 @@
-function [T2,T2_err,detuningf]=reFitRamsey(path,fitType,T1,dosave,doplot)
+function [T2,T2_err,detuningf,detuningf_err]=reFitRamsey(path,fitType,T1,dosave,doplot)
+% example:
+% [T2,T2_err,detuningf,detuningf_err]=toolbox.data_tool.fitting.reFitRamsey('',2,10,1,1)
+
 if nargin<5
     dosave=true;
     doplot=true;
@@ -32,15 +35,16 @@ loopn=size(Ramsey_data0,1);
 T2=NaN(1,loopn);
 T2_err=NaN(1,loopn);
 detuningf=NaN(1,loopn);
+detuningf_err=NaN(1,loopn);
 for II=1:loopn
     Ramsey_data=Ramsey_data0(II,:);
-    [T2(II),T2_err(II),detuningf(II),fitramsey_time,fitramsey_data]=toolbox.data_tool.fitting.ramseyFit(Ramsey_time,Ramsey_data,fitType,T1*1000);
+    [T2(II),T2_err(II),detuningf(II),fitramsey_time,fitramsey_data,detuningf_err(II)]=toolbox.data_tool.fitting.ramseyFit(Ramsey_time,Ramsey_data,fitType,T1*1000);
 end
 if doplot
     if size(Ramsey_data0,1)==1
         hf=figure(17);
         plot(Ramsey_time,Ramsey_data,'o',fitramsey_time,fitramsey_data,'linewidth',2,'MarkerFaceColor','r');
-        title(['T_2^*=' num2str(T2/1e3,'%.2f') '\pm' num2str(T2_err/1e3,'%.1f') 'us, \delta f=' num2str(1e3*detuningf,'%.2f') 'MHz'])
+        title(['T_2^*=' num2str(T2/1e3,'%.2f') '\pm' num2str(T2_err/1e3,'%.1f') 'us, \Delta f=' num2str(1e3*detuningf,'%.2f') '\pm' num2str(1e3*detuningf_err,'%.2f') 'MHz'])
         xlabel('Pulse delay (ns)');
         ylabel('P');
     else
@@ -48,7 +52,7 @@ if doplot
         h1=errorbar(detuning,T2/1e3,T2_err/1e3);
         ylim([0,Ramsey_time(end)*2/1e3])
         ylabel('T2* (us)')
-        if fcn=='data_taking.public.xmon.ramsey_dz'
+        if strcmp(fcn,'data_taking.public.xmon.ramsey_dz')
             xlabel('Detune Amp')
         else
             xlabel('Detuning Freq (Hz)')
