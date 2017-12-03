@@ -5,11 +5,11 @@ function [ c,dc ] = qfit1( freq,s21, plotfit)
 c0 = c0estimate(freq,s21);
 f00 = c0(1);
 Qi0 = c0(2);
-% c0(2) = 1.45e6;
+% Qi0 = 2e4;
 Qc0 = c0(3);
-% c0(3) = 1.07e5;
+% Qc0 = 0.6e4;
 phi0 = c0(4);
-% c0(4) = 0;
+% phi0 = 10;
 
 
 Q0 = Qi0*Qc0/(Qi0+Qc0);

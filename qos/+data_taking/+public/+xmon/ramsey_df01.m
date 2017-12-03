@@ -23,8 +23,12 @@ function varargout = ramsey_df01(varargin)
     import sqc.*
     import sqc.op.physical.*
 
-    args = util.processArgs(varargin,{'phaseOffset',0,'dataTyp','P','detuning',0,'gui',false,'notes','','save',true});
+    args = util.processArgs(varargin,{'r_avg',[],'phaseOffset',0,'dataTyp','P','detuning',0,'gui',false,'notes','','save',true});
     q = data_taking.public.util.getQubits(args,{'qubit'});
+    
+    if ~isempty(args.r_avg)
+        q.r_avg=args.r_avg;
+    end
 
     X2 = gate.X2p(q);
     I = gate.I(q);

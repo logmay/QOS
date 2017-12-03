@@ -24,9 +24,13 @@ function varargout = ramsey_dz(varargin)
     import sqc.*
     import sqc.op.physical.*
 
-    args = util.processArgs(varargin,{'phaseOffset',0,'detuning',0,'dataTyp','P',...
+    args = util.processArgs(varargin,{'r_avg',[],'phaseOffset',0,'detuning',0,'dataTyp','P',...
         'gui',false,'notes','','detuning',0,'save',true});
     q = data_taking.public.util.getQubits(args,{'qubit'});
+    
+    if ~isempty(args.r_avg)
+        q.r_avg=args.r_avg;
+    end
 
     X2 = op.XY2p(q,0);
     I = gate.I(q);

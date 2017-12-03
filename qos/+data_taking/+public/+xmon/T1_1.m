@@ -28,71 +28,55 @@ varargout{1} = T1_111('biasQubit',args.qubit,'biasAmp',args.biasAmp,'biasDelay',
     'readoutQubit',args.qubit,'time',args.time,'r_avg',args.r_avg,'notes',args.notes,'gui',args.gui,'save',args.save);
 
 if args.fit % Add by GM, 170623
+    fitType=1; % 1: base is 0; 2: base is fitable
     data=cell2mat(varargout{1,1}.data{1,1}');
+    T1_data=NaN(size(data,2)/2,size(data,1));
     for ii=1:size(data,2)/2
-        z(ii,:)=(data(:,2*ii-1)-data(:,2*ii))';
+        T1_data(ii,:)=(data(:,2*ii-1)-data(:,2*ii))';
     end
     bias=args.biasAmp;
-    time=args.time;
+    T1_time=args.time/2;
     if length(bias)==1
-        A0 = z(end);
-        B0 = z(1)-z(end);
-        td0 = time(end)/2;
-        
-        [A_,B_,td_,temp] = toolbox.data_tool.fitting.expDecayFit(time,z,A0,B0,td0);
-        td_=td_/2e3;
-        time=time/2e3;
-        wci=diff(temp(3,:))/2e3;
+        [T1,T1_err,fitT1_time,fitT1_data]=toolbox.data_tool.fitting.t1Fit(T1_time,T1_data,fitType);
         
         if args.gui
-            tf = linspace(time(1),time(end),100);
-            zf = toolbox.data_tool.fitting.expDecay([A_,B_,td_*2e3],tf*2e3);
-            hf=figure;
-            plot(gca, time,z,'o','MarkerFaceColor','r');
+            q = data_taking.public.util.getQubits(args,{'qubit'});
+            vis=sum(q.r_iq2prob_fidelity)-1;
+            if ~isempty(args.r_avg)
+                err=sqrt(1/args.r_avg)/vis*ones(1,length(T1_time));
+            else
+                err=sqrt(1/q.r_avg)/vis*ones(1,length(T1_time));
+            end
+            hf=figure();hold off;
+            errorbar(T1_time,T1_data,err,'.','MarkerFaceColor','b','LineWidth',1);
             hold on;
-            plot(gca,tf,zf,'r');
-            plot(gca,wci,[zf(end),zf(end)],'g-+');
-            plot(gca,td_,zf(end),'r+');
-            hold off;
-            xlabel('Time (us)');
+            plot(fitT1_time,fitT1_data,'LineWidth',1.5,'Color','r');
+            
+            xlabel('Pulse delay (ns)');
             ylabel('diff(P<1>)')
             drawnow;
-            legend('Raw','Fit','Errorbar','FitValue')
-            if td_<time(end)
-                title([args.qubit ' Fit T_1 = ' num2str(td_,'%.2f') '\pm' num2str(wci,'%.2f') ' us'])
+            if T1<T1_time(end)
+                title([args.qubit ' T_1 = ' num2str(T1/1e3,'%.2f') '\pm' num2str(T1_err/1e3,'%.2f') ' us'])
             else
                 title([args.qubit ' Fit failed!'])
             end
         end
     else
         for ii = 1:length(bias)
-            A0 = z(ii,end);
-            B0 = z(ii,1)-z(ii,end);
-            td0 = time(end)/4;
-            
-            [A_,B_,td_,temp] = toolbox.data_tool.fitting.expDecayFit(time,z(ii,:),A0,B0,td0);
-            
-            wci(ii,:) = temp(3,:); %
-            A(ii) = A_;
-            B(ii) = B_;
-            td(ii) = td_;
+            [T1(ii),T1_err(ii),~,~]=toolbox.data_tool.fitting.t1Fit(T1_time,T1_data(ii,:),fitType);
         end
         
-        time = time/2e3;
-        td = td/2e3;
-        wci = wci/2e3;
-            
         if args.gui
             
             hf=figure();
-            imagesc(bias,time,z');
+            imagesc(bias,T1_time,T1_data');
             hold on;
-            errorbar(bias,td,td-wci(:,1)',wci(:,2)'-td,'ro-','MarkerSize',5,'MarkerFaceColor',[1,1,1]);
+            errorbar(bias,T1,T1_err,'ro','MarkerSize',5,'MarkerFaceColor',[1,1,1]);
             set(gca,'YDir','normal');
             xlabel('Z Bias');
-            ylabel('Time (us)');
-            if mean(td)<time(end)
-                title([args.qubit ' Fit average T_1 = ' num2str(mean(td),'%.2f') ' us'])
+            ylabel('Time (ns)');
+            if mean(T1)<T1_time(end)
+                title([args.qubit ' Fit average T_1 = ' num2str(mean(T1/1e3),'%.2f') ' us'])
             else
                 title([args.qubit ' Fit failed!'])
             end
@@ -106,8 +90,8 @@ if args.fit % Add by GM, 170623
             num2str(ceil(99*rand(1,1)),'%0.0f'),'_.fig']);
         saveas(hf,dataSvName);
     end
-    varargout{1}=td_;
-    varargout{2}=wci;
+    varargout{1}=T1;
+    varargout{2}=T1_err;
 end
 
 end
