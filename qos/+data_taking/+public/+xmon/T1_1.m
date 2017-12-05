@@ -43,9 +43,9 @@ if args.fit % Add by GM, 170623
             q = data_taking.public.util.getQubits(args,{'qubit'});
             vis=sum(q.r_iq2prob_fidelity)-1;
             if ~isempty(args.r_avg)
-                err=sqrt(1/args.r_avg)/vis*ones(1,length(T1_time));
+                err=abs(sqrt(T1_data.*(1-T1_data)/args.r_avg)/vis);
             else
-                err=sqrt(1/q.r_avg)/vis*ones(1,length(T1_time));
+                err=abs(sqrt(T1_data.*(1-T1_data)/q.r_avg)/vis);
             end
             hf=figure();hold off;
             errorbar(T1_time,T1_data,err,'.','MarkerFaceColor','b','LineWidth',1);

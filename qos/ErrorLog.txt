@@ -433,3 +433,109 @@
 02-Dec-2017 18:34:59 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
 02-Dec-2017 18:35:13 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
 02-Dec-2017 18:35:28 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:29:03 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:34:58 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:35:30 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:36:13 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:37:18 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:39:18 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:39:32 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:39:50 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:40:26 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:40:55 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:41:28 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:42:33 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:43:13 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:43:35 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:44:13 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 19:44:45 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:00:26 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:01:11 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:04:34 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:05:04 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:06:15 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:06:56 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:07:36 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:07:56 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:08:54 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:11:21 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:12:01 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:12:23 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:13:53 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:15:07 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:16:11 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:16:39 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:17:25 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:19:24 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:20:05 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:20:53 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:22:07 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:22:45 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:23:01 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:23:32 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:43:05 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 20:53:57 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:01:53 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:02:16 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:05:18 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:07:40 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:14:23 USTCDAC:CheckStatus:D_11 Error code:-1543503871 --> USTCDACDRIVER API failed: The task(s) timeout.
+04-Dec-2017 21:14:23 USTCDAC:Close:D_11 Error code:-469762046 --> USTCDACDRIVER API failed: WaitForSingleObject error.
+04-Dec-2017 21:18:05 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:25:45 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:27:22 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:27:55 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:28:31 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:31:15 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:32:41 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:34:13 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:34:39 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:35:09 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:35:25 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:37:13 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:37:39 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:39:35 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:40:15 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:41:49 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:43:22 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:46:00 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:48:42 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:52:19 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:53:40 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:55:53 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:56:09 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 21:56:47 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:00:33 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:00:57 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:01:19 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:02:14 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:02:35 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:04:07 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:04:21 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:04:35 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:04:48 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:05:03 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:05:21 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:05:35 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:05:48 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:06:00 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:06:15 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:06:29 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:06:41 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:06:56 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:07:10 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:07:23 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+04-Dec-2017 22:12:40 USTCDAC:CheckStatus:D_11 Error code:-1543503871 --> USTCDACDRIVER API failed: The task(s) timeout.
+04-Dec-2017 22:15:51 USTCDAC:CheckStatus:D_11 Error code:-1543503871 --> USTCDACDRIVER API failed: The task(s) timeout.
+04-Dec-2017 22:15:51 USTCDAC:Close:D_11 Error code:-469762046 --> USTCDACDRIVER API failed: WaitForSingleObject error.
+04-Dec-2017 22:57:57 USTCDAC:CheckStatus:D_11 Error code:-1543503871 --> USTCDACDRIVER API failed: The task(s) timeout.
+04-Dec-2017 23:05:55 USTCDAC:CheckStatus:D_11 Error code:-1543503871 --> USTCDACDRIVER API failed: The task(s) timeout.
+04-Dec-2017 23:05:55 USTCDAC:Close:D_11 Error code:-469762046 --> USTCDACDRIVER API failed: WaitForSingleObject error.
+05-Dec-2017 09:16:23 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+05-Dec-2017 09:16:51 USTCDAC:GetReturn:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+05-Dec-2017 09:37:53 USTCDAC:CheckStatus:D_11 Error code:-1543503871 --> USTCDACDRIVER API failed: The task(s) timeout.
+05-Dec-2017 09:37:53 USTCDAC:Close:D_11 Error code:-469762046 --> USTCDACDRIVER API failed: WaitForSingleObject error.
+05-Dec-2017 10:04:45 USTCDAC:Open:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+05-Dec-2017 10:05:06 USTCDAC:Open:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+05-Dec-2017 10:05:28 USTCDAC:Open:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+05-Dec-2017 10:05:49 USTCDAC:Open:D_11 Error code:10060 --> Windows API failed: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。

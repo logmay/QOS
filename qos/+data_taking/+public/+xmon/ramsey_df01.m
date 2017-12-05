@@ -30,7 +30,7 @@ function varargout = ramsey_df01(varargin)
         q.r_avg=args.r_avg;
     end
 
-    X2 = gate.X2p(q);
+    X2 = op.XY2p(q,0);
     I = gate.I(q);
     R = measure.resonatorReadout_ss(q);
  

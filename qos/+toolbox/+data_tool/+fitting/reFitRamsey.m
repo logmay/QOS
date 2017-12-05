@@ -14,13 +14,24 @@ if nargin<3 && nargin>0
     T1=10;
 end
 if nargin==0
-    Data=evalin('base','Data');
-    Config=evalin('base','Config');
-    Ramsey_data0=Data{1,1};
-    Ramsey_time=Config.args.time/2;
-    fcn=Config.fcn;
-    detuning=Config.args.detuning;
-    dosave=false; % No path provided thus cannot save
+    try
+        Data=evalin('base','Data');
+        Config=evalin('base','Config');
+        Ramsey_data0=Data{1,1};
+        Ramsey_time=Config.args.time/2;
+        fcn=Config.fcn;
+        detuning=Config.args.detuning;
+        dosave=false; % No path provided thus cannot save
+    catch
+        Ramsey_data0=evalin('base','y');
+        Ramsey_time=evalin('base','x')/2;
+        fcn='';
+        detuning=0;
+        dosave=false; % No path provided thus cannot save
+    end
+    fitType=1;
+    T1=10;
+    warning('In this mode no T1 are provided. Use fit Type 1.')
 else
     e=load(path);
     Ramsey_data0=e.Data{1,1};
@@ -28,7 +39,7 @@ else
     fcn=e.Config.fcn;
     detuning=e.Config.args.detuning;
     if nargin<4
-    dosave=e.Config.args.save;
+        dosave=e.Config.args.save;
     end
 end
 loopn=size(Ramsey_data0,1);
@@ -60,6 +71,7 @@ if doplot
         title(['Fit average T_2^* = ' num2str(mean(T2)/1e3,'%.2f') '\pm' num2str(std(T2)/1e3,'%.1f') ' us'])
         set(h1,'LineStyle','-','Marker','o','MarkerFaceColor','b')
     end
+    warning('In this mode no readout parameter provided, thus no errorbar!')
     if dosave
         refile=replace(path,'.mat','_fit.fig');
         saveas(hf,refile);

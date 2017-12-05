@@ -18,7 +18,7 @@ function varargout = correctf01byRamsey_1(varargin)
 % arguments order not important as long as they form correct pairs.
 
 % Yulin Wu, 2017/4/14
-% resolution low, not recommended, use correctf01bySpc instead
+% when resolution low, not recommended, use correctf01bySpc instead
 % Mod by GM, 20171026
 
 MAXFREQDRIFT = 30e6;
