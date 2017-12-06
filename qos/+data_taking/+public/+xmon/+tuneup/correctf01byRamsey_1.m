@@ -22,7 +22,7 @@ function varargout = correctf01byRamsey_1(varargin)
 % Mod by GM, 20171026
 
 MAXFREQDRIFT = 30e6;
-DELAYTIMERANGE = 1000e-9;
+DELAYTIMERANGE = 500e-9;
 
 import data_taking.public.xmon.ramsey
 
