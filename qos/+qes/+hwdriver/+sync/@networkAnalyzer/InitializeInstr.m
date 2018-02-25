@@ -10,18 +10,33 @@ function [varargout] = InitializeInstr(obj)
     try
         switch TYP
             case {'agilent_n5230c'}
-                obj.timeout = 120; % seconds
                 if strcmp(obj.interfaceobj.Status,'open')
                     fclose(obj.interfaceobj);
                 end
                 obj.interfaceobj.Timeout=120; 
-                obj.interfaceobj.InputBufferSize = 20000000; % bytes, should be enough for most applications
+                obj.interfaceobj.InputBufferSize = 2000000; % bytes, should be enough for most applications
                 if strcmp(obj.interfaceobj.Status,'closed')
                     fopen(obj.interfaceobj);
                 end
                 fprintf(obj.interfaceobj,'*RST');
                 % set work mode to linear(default)
                 fprintf(obj.interfaceobj,':INITiate:IMMediate'); % trig
+                obj.DeleteMeasurement(); % after reset, a default measurement is automatically created by the instrument, we don't need it.
+                obj.numports = 2; % 2 ports
+            case {'agilent_e5071c'}
+                if strcmp(obj.interfaceobj.Status,'open')
+                    fclose(obj.interfaceobj);
+                end
+                obj.interfaceobj.Timeout=120; 
+                obj.interfaceobj.InputBufferSize = 2000000; % bytes, should be enough for most applications
+                if strcmp(obj.interfaceobj.Status,'closed')
+                    fopen(obj.interfaceobj);
+                end
+                fprintf(obj.interfaceobj,'*RST');
+                % set work mode to linear(default)
+                % setup trig mode
+                fprintf(obj.interfaceobj,':TRIG:SEQ:SOUR BUS');
+                fprintf(obj.interfaceobj,':TRIG:AVER ON');
                 obj.DeleteMeasurement(); % after reset, a default measurement is automatically created by the instrument, we don't need it.
                 obj.numports = 2; % 2 ports
             otherwise

@@ -9,6 +9,9 @@ function bol = GetOnOff(obj)
             case {'agilent_n5230c'}
                 str = query(obj.interfaceobj,':OUTPut:STATe?');
                 bol = logical(str2double(str));
+            case {'agilent_e5071c'}
+                str = query(obj.interfaceobj,':OUTPut:STATe?');
+                bol = logical(str2double(str));
             otherwise
                   error('SParamMeter:GetOnOff', ['Unsupported instrument: ',TYP]);
         end

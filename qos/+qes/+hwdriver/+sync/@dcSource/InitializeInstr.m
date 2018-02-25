@@ -40,6 +40,8 @@ function [varargout] = InitializeInstr(obj)
             case {'ustc_dadc_v1'}
                 obj.numChnls = obj.interfaceobj.numChnls;
                 obj.safty_limit = 30;
+            case {'simuDCSource'}
+                obj.numChnls = 1;
             otherwise
                  ErrMsg = ['Unsupported instrument: ',TYP];
         end

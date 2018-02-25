@@ -12,6 +12,12 @@ function SetOnOff(obj,On)
                 else
                     fprintf(obj.interfaceobj,':OUTPut:STATe OFF');
                 end
+            case {'agilent_e5071c'}
+                if On
+                    fprintf(obj.interfaceobj,':OUTPut:STATe ON');
+                else
+                    fprintf(obj.interfaceobj,':OUTPut:STATe OFF');
+                end
             otherwise
                   error('SParamMeter:SetOnOff', ['Unsupported instrument: ',TYP]);
         end

@@ -33,6 +33,8 @@ function SetOnOff(obj,On)
                         obj.interfaceobj.SetDC(0,ii);
                     end
                 end
+            case {'simuDCSource'}
+                
             otherwise
                  error('DCSource:SetOnOff', ['Unsupported instrument: ',TYP]);
         end

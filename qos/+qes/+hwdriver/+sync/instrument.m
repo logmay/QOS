@@ -103,6 +103,7 @@ classdef (Abstract = true) instrument < qes.hwdriver.hardware
                         'timeout should be a positive number');
             end
             obj.timeout = val;
+            obj.interfaceobj.Timeout = val; % Add by GM, 20180126
         end
 %         function set.active(obj, val)
 %             if isempty(val) || ~islogical(val)

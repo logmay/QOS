@@ -55,11 +55,11 @@ if args.fit % Add by GM, 170623
             xlabel('Pulse delay (ns)');
             ylabel('diff(P<1>)')
             drawnow;
-            if T1<T1_time(end)
+%             if T1<T1_time(end)
                 title([args.qubit ' T_1 = ' num2str(T1/1e3,'%.2f') '\pm' num2str(T1_err/1e3,'%.2f') ' us'])
-            else
-                title([args.qubit ' Fit failed!'])
-            end
+%             else
+%                 title([args.qubit ' Fit failed!'])
+%             end
         end
     else
         for ii = 1:length(bias)
@@ -75,12 +75,13 @@ if args.fit % Add by GM, 170623
             set(gca,'YDir','normal');
             xlabel('Z Bias');
             ylabel('Time (ns)');
-            if mean(T1)<T1_time(end)
+%             if mean(T1)<T1_time(end)
                 title([args.qubit ' Fit average T_1 = ' num2str(mean(T1/1e3),'%.2f') ' us'])
-            else
-                title([args.qubit ' Fit failed!'])
-            end
-            colorbar
+%             else
+%                 title([args.qubit ' Fit failed!'])
+%             end
+            colorbar;
+            caxis([0,1]);
         end
     end
     if args.gui && args.save

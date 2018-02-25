@@ -26,6 +26,8 @@ function DeleteMeasurement(obj, MeasurementName)
                         fprintf(obj.interfaceobj,[':CALCulate:PARameter:DELete:NAME ',MeasurementName]);
                     end
                 end
+            case {'agilent_e5071c'}
+                % nothing to do
             otherwise
                   error('SParamMeter:DeletMeasurement', ['Unsupported instrument: ',TYP]);
         end

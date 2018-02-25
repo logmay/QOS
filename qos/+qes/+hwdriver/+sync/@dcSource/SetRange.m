@@ -66,6 +66,8 @@ function SetRange(obj, val)
                 end
             case {'ustc_dadc_v1'}
                 % pass
+            case {'simuDCSource'}
+                
             otherwise
                   error('DCSource:SetRange', ['Unsupported instrument: ',TYP]);
         end

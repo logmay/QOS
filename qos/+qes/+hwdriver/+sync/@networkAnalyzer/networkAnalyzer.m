@@ -6,10 +6,10 @@ classdef networkAnalyzer < qes.hwdriver.sync.instrument
     % Applying a 10 MHz signal to the Reference Oscillator connector automatically sets the
     % Reference Oscillator to EXTernal, when NO signal is present at the 10 MHz
     % Reference Oscillator connector, internal source is used.
-
-% Copyright 2015 Yulin Wu, Institute of Physics, Chinese  Academy of Sciences
-% mail4ywu@gmail.com/mail4ywu@icloud.com
-
+    
+    % Copyright 2015 Yulin Wu, Institute of Physics, Chinese  Academy of Sciences
+    % mail4ywu@gmail.com/mail4ywu@icloud.com
+    
     properties
         on = false		% output off/on
         avgcounts % average factor, avgcounts = 1 to disable averaging.
@@ -23,12 +23,12 @@ classdef networkAnalyzer < qes.hwdriver.sync.instrument
         measurements % name list of all created measurements
         measurement % name the measurement to get data from
     end
-     properties (GetAccess = private, SetAccess = private)
+    properties (GetAccess = private, SetAccess = private)
         numports    % number of ports
         averaging = false    % average or not
         numsegments = 1
     end
-
+    
     methods (Access = private)
         function obj = networkAnalyzer(name,interfaceobj,drivertype)
             if isempty(interfaceobj)
@@ -78,15 +78,33 @@ classdef networkAnalyzer < qes.hwdriver.sync.instrument
             val = GetMeasurements(obj);
         end
         function val = get.measurement(obj)
-            str = query(obj.interfaceobj,':CALCulate:PARameter:SELect?');
-            val = strtrim(strrep(str,'"',''));
+            TYP = lower(obj.drivertype);
+            switch TYP
+                case {'agilent_n5230c'}
+                    str = query(obj.interfaceobj,':CALCulate:PARameter:SELect?');
+                    val = strtrim(strrep(str,'"',''));
+                case {'agilent_e5071c'}
+                    % nothing to do
+                    val = [];
+                otherwise
+                    error('SParamMeter:getmeasurement', ['Unsupported instrument: ',TYP]);
+            end
         end
         function set.measurement(obj, MeasurementName)
-            measurementlist = obj.measurements;
-            if isempty(measurementlist) || ~ismember(MeasurementName,measurementlist)
-                error('networkAnalyzer:SetMeasurement', ['Measurement ', MeasurementName ,' not exist.']);
-            else
-                fprintf(obj.interfaceobj,[':CALCulate:PARameter:SELect ',MeasurementName]);
+            TYP = lower(obj.drivertype);
+            switch TYP
+                case {'agilent_n5230c'}
+                    measurementlist = obj.measurements;
+                    if isempty(measurementlist) || ~ismember(MeasurementName,measurementlist)
+                        error('networkAnalyzer:SetMeasurement', ['Measurement ', MeasurementName ,' not exist.']);
+                    else
+                        fprintf(obj.interfaceobj,[':CALCulate:PARameter:SELect ',MeasurementName]);
+                    end
+                case {'agilent_e5071c'}
+                    % nothing to do
+                    val = [];
+                otherwise
+                    error('SParamMeter:setmeasurement', ['Unsupported instrument: ',TYP]);
             end
         end
         function val = get.on(obj)
@@ -106,9 +124,12 @@ classdef networkAnalyzer < qes.hwdriver.sync.instrument
             SetOnOff(obj,val);
             obj.on = val;
         end
-        
+%         function  set.timeout(obj, val)
+%             if val>0
+%                 obj.interfaceobj.Timeout=val;
+%             end
+%         end
         function val = get.avgcounts(obj)
-%             val = str2double(query(obj.interfaceobj,[cmd ':SENSe1:AVERage:COUNt?']));
             val = str2double(query(obj.interfaceobj,[':SENSe1:AVERage:COUNt?']));
         end
         function set.avgcounts(obj, value)
@@ -123,7 +144,10 @@ classdef networkAnalyzer < qes.hwdriver.sync.instrument
             obj.avgcounts = value;
         end
         function val = get.swpmode(obj)
-            str = strtrim(query(obj.interfaceobj,':SENSe:SWEep:MODE?'));
+            TYP = lower(obj.drivertype);
+            switch TYP
+                case {'agilent_n5230c'}
+                    str = strtrim(query(obj.interfaceobj,':SENSe:SWEep:MODE?'));
             switch str
                 case 'CONT'
                     val = 0;
@@ -136,9 +160,18 @@ classdef networkAnalyzer < qes.hwdriver.sync.instrument
                 otherwise
                     val = [];
             end
+                case {'agilent_e5071c'}
+                    error('sweep mode not supported on E5071C right now! Need to be developed!')
+                otherwise
+                    error('SParamMeter:getswpmode', ['Unsupported instrument: ',TYP]);
+            end
+            
         end
         function set.swpmode(obj,val)
-            switch val
+            TYP = lower(obj.drivertype);
+            switch TYP
+                case {'agilent_n5230c'}
+                    switch val
                 case 0
                     fprintf(obj.interfaceobj,':SENSe:SWEep:MODE CONTinuous');
                 case 1
@@ -151,32 +184,84 @@ classdef networkAnalyzer < qes.hwdriver.sync.instrument
                     error('Invalid input');
             end
             obj.swpmode = val;
+                case {'agilent_e5071c'}
+                    error('sweep mode not supported on E5071C right now! Need to be developed!')
+                otherwise
+                    error('SParamMeter:setswpmode', ['Unsupported instrument: ',TYP]);
+            end
+            
         end
         function val = get.power(obj)
-            val = str2double(query(obj.interfaceobj,':SOURce:POWer:LEVel:IMMediate:AMPLitude?'));
+            TYP = lower(obj.drivertype);
+            switch TYP
+                case {'agilent_n5230c'}
+                    val = str2double(query(obj.interfaceobj,':SOURce:POWer:LEVel:IMMediate:AMPLitude?'));
+                case {'agilent_e5071c'}
+                    val = str2double(query(obj.interfaceobj,':SOURce:POWer:LEVel:IMMediate:AMPLitude?'));
+                otherwise
+                    error('SParamMeter:getpower', ['Unsupported instrument: ',TYP]);
+            end
+            
         end
         function set.power(obj, value)
-            if value < -30 || value > 20 % Agilent PNA E8300 series
-                error('power out of limits');
+            TYP = lower(obj.drivertype);
+            switch TYP
+                case {'agilent_n5230c'}
+                    if value < -30 || value > 20 % Agilent PNA E8300 series
+                        error('power out of limits');
+                    end
+                    fprintf(obj.interfaceobj,[':SOURce:POWer:LEVel:IMMediate:AMPLitude ', num2str(value)]);
+                    obj.power = value;
+                case {'agilent_e5071c'}
+                    if value < -85 || value > 10 % Agilent PNA E8300 series
+                        error('power out of limits');
+                    end
+                    fprintf(obj.interfaceobj,[':SOURce:POWer:LEVel:IMMediate:AMPLitude ', num2str(value)]);
+                    obj.power = value;
+                otherwise
+                    error('SParamMeter:setpower', ['Unsupported instrument: ',TYP]);
             end
-            fprintf(obj.interfaceobj,[':SOURce:POWer:LEVel:IMMediate:AMPLitude ', num2str(value)]);
-            obj.power = value;
+            
         end
         function val = get.trigmode(obj)
-            str = strtrim(query(obj.interfaceobj,':TRIGger:SEQuence:SOURce?'));
-            switch str
-                case 'IMM'
-                    val = 0;
-                case 'EXT'
-                    val = 1;
-                case 'MAN'
-                    val = 2;
+            TYP = lower(obj.drivertype);
+            switch TYP
+                case {'agilent_n5230c'}
+                    str = strtrim(query(obj.interfaceobj,':TRIGger:SEQuence:SOURce?'));
+                    switch str
+                        case 'IMM'
+                            val = 0;
+                        case 'EXT'
+                            val = 1;
+                        case 'MAN'
+                            val = 2;
+                        otherwise
+                            val = [];
+                    end
+                case {'agilent_e5071c'}
+                    str = strtrim(query(obj.interfaceobj,':TRIGger:SEQuence:SOURce?'));
+                    switch str
+                        case 'INT'
+                            val = 0;
+                        case 'EXT'
+                            val = 1;
+                        case 'MAN'
+                            val = 2;
+                        case 'BUS'
+                            val = 3;
+                        otherwise
+                            val = [];
+                    end
                 otherwise
-                    val = [];
+                    error('SParamMeter:gettrigmode', ['Unsupported instrument: ',TYP]);
             end
+            
         end
         function set.trigmode(obj, val)
-            switch val
+            TYP = lower(obj.drivertype);
+            switch TYP
+                case {'agilent_n5230c'}
+                    switch val
                 case 0
                     fprintf(obj.interfaceobj,':TRIGger:SEQuence:SOURce IMMediate');
                 case 1
@@ -187,6 +272,24 @@ classdef networkAnalyzer < qes.hwdriver.sync.instrument
                     error('Invalid input');
             end
             obj.trigmode = val;
+                case {'agilent_e5071c'}
+                    switch val
+                case 0
+                    fprintf(obj.interfaceobj,':TRIGger:SEQuence:SOURce INT');
+                case 1
+                    fprintf(obj.interfaceobj,':TRIGger:SEQuence:SOURce EXTernal');
+                case 2
+                    fprintf(obj.interfaceobj,':TRIGger:SEQuence:SOURce MANual');
+                case 3
+                    fprintf(obj.interfaceobj,':TRIGger:SEQuence:SOURce BUS');
+                otherwise
+                    error('Invalid input');
+            end
+            obj.trigmode = val;
+                otherwise
+                    error('SParamMeter:settrigmode', ['Unsupported instrument: ',TYP]);                    
+            end
+            
         end
     end
 end

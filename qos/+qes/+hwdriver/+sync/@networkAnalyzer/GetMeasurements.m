@@ -20,6 +20,8 @@ function val = GetMeasurements(obj)
                 if ~isempty(val) && strcmp(val{1},'NO CATALOG')
                     val = [];
                 end
+            case {'agilent_e5071c'}
+                val = [];
             otherwise
                   error('SParamMeter:GetMeasurement', ['Unsupported instrument: ',TYP]);
         end

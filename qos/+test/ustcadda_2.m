@@ -12,13 +12,15 @@ ustcaddaObj = ustcadda_v1.GetInstance();
 %%
 ustcaddaObj.close()
 %% run all channels
-numChnls = 44;
+numChnls = 36;
 numRuns = 10000;
 t=1:4000;
 wavedata=32768+32768/2*cos(2*pi*t/40);
 ustcaddaObj.runReps = 1e3;
 tic
-for jj = 1:numRuns
+% for jj = 1:numRuns
+while 1==1
+    jj=jj+1;
     for ii = 1:numChnls
         ustcaddaObj.SendWave(ii,wavedata);
 %         ustcaddaObj.SendWave(ii,wavedata);

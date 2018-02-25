@@ -20,6 +20,8 @@ function dcval = GetDCVal(obj,chnl)
                 dcval = str2double(query(obj.interfaceobj,'SA?'));
             case {'ustc_dadc_v1'}
                 dcval = obj.dcval(chnl);
+            case {'simuDCSource'}
+                dcval = 0;
             otherwise
                  error('DCSource:GetDCVal', ['Unsupported instrument: ',TYP]);
         end

@@ -25,6 +25,8 @@ function SetDCVal(obj,val,chnl)
         case {'ustc_dadc_v1'}
             obj.interfaceobj.SetDC(val,chnl);
             obj.dcval(chnl) = val;
+        case {'simuDCSource'}
+            obj.dcval(chnl) = val;
         otherwise
              error('DCSource:SetDCVal', ['Unsupported instrument: ',TYP]);
     end

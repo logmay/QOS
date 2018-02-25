@@ -38,7 +38,7 @@ popupcallback(hpopup,0)
                     @(x,y)errorbar(x,y,dQi,'linewidth',2.25),...
                     @(x,y)errorbar(x,y,dQc,'linewidth',2.25));
                 title('Qi&Qc','fontsize',16);
-                set(hax(1),'fontsize',14);set(hax(2),'fontsize',14);
+%                 set(hax(1),'fontsize',14);set(hax(2),'fontsize',14);
                 xlabel('Power(dBm)','fontsize',16); ylabel(hax(1),'Qi','fontsize',16);ylabel(hax(2),'Qc','fontsize',16);
                 axes(hax2);
                 errorbar(power,f0,df0,'linewidth',2.25);

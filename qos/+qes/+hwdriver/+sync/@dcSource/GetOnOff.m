@@ -24,6 +24,8 @@ function On = GetOnOff(obj)
                 % todo
             case {'ustc_dadc_v1'}
                 On = true; % always on, off is just output zero
+            case {'simuDCSource'}
+                On = true;
             otherwise
                  error('DCSource:SetOnOff', ['Unsupported instrument: ',TYP]);
         end

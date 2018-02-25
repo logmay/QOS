@@ -105,7 +105,7 @@ else
    diag_info = sum(Rinv.*Rinv,2);
 
    rmse = norm(resid) / sqrt(v);
-   se = sqrt(diag_info) * rmse;
+   se = 2* sqrt(diag_info) * rmse; % multiple by 2 is add by GM, to satisfy total error range.
 end
 
 % Calculate confidence interval
